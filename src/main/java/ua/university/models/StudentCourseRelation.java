@@ -1,6 +1,10 @@
 package ua.university.models;
 
-public class StudentCourseRelation {
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class StudentCourseRelation implements IModel {
     private long id;
     private Student student;
     private Course course;
@@ -60,11 +64,24 @@ public class StudentCourseRelation {
 
     @Override
     public String toString() {
-        return "StudentCourseRelation{" +
-                "id=" + id +
-                "course=" + course +
-                ", student=" + student +
-                ", grade=" + grade +
-                '}';
+        return "Student: " +
+                this.course +
+                ", Course: " +
+                this.course +
+                ", Grade: " +
+                this.grade +
+                ", Review: " +
+                this.review;
+    }
+
+    @Override
+    public Map<String, String> getMap() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("Id", String.valueOf(this.id));
+        map.put("Student", this.student.toString());
+        map.put("Course", this.course.toString());
+        map.put("Grade", String.valueOf(this.grade));
+        map.put("Review", this.review);
+        return map;
     }
 }

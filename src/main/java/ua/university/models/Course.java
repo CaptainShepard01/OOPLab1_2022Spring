@@ -51,11 +51,21 @@ public class Course {
 
     @Override
     public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", maxGrade=" + maxGrade +
-                ", teacher=" + teacher +
-                '}';
+        return "Name: " +
+                this.name +
+                ", Max grade: " +
+                this.maxGrade +
+                ", Teacher: " +
+                this.teacher;
+    }
+
+    @Override
+    public Map<String, String> getMap() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("Id", String.valueOf(this.id));
+        map.put("Name", this.name);
+        map.put("Max Grade", String.valueOf(this.maxGrade));
+        map.put("Teacher", this.teacher.toString());
+        return map;
     }
 }

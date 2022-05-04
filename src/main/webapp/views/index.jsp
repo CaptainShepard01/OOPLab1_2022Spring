@@ -57,7 +57,6 @@
 <body>
 <nav class="nav">
     <a href="/" class="nav__link" data-link>Dashboard</a>
-    <a href="/posts" class="nav__link" data-link>Posts</a>
 
     <a href="/teachers" class="nav__link" data-link>Teaches</a>
     <a href="/courses" class="nav__link" data-link>Courses</a>
@@ -198,8 +197,6 @@
     const router = async () => {
         const routes = [
             {path: "/", view: Dashboard},
-            {path: "/posts", view: Posts},
-            {path: "/posts/:id", view: PostView},
             {path: "/teacher", view: Posts},
             {path: "/teacher/:id", view: PostView},
             {path: "/student", view: Posts},

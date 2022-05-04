@@ -1,6 +1,10 @@
 package ua.university.models;
 
-public class Teacher {
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Teacher implements IModel {
     private long id;
     private String name;
 
@@ -30,9 +34,15 @@ public class Teacher {
 
     @Override
     public String toString() {
-        return "Teacher{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return "Name: " +
+                this.name;
+    }
+
+    @Override
+    public Map<String, String> getMap() {
+        Map<String, String> map = new LinkedHashMap<>();
+        map.put("Id", String.valueOf(this.id));
+        map.put("Name", this.name);
+        return map;
     }
 }
