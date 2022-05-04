@@ -35,8 +35,8 @@ public class FacultyDAO {
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
-                int maxGrade = resultSet.getInt("maxGrade");
-                long teacherId = resultSet.getLong("teacherId");
+                int maxGrade = resultSet.getInt("max_grade");
+                long teacherId = resultSet.getLong("teacher_id");
                 Teacher teacher = getTeacher(teacherId);
 
                 coursesList.add(new Course(id, name, maxGrade, teacher));
@@ -60,8 +60,8 @@ public class FacultyDAO {
             while (resultSet.next()) {
                 return new Course(resultSet.getLong("id"),
                         resultSet.getString("name"),
-                        resultSet.getInt("maxGrade"),
-                        getTeacher(resultSet.getLong("teacherId")));
+                        resultSet.getInt("max_grade"),
+                        getTeacher(resultSet.getLong("teacher_id")));
             }
 
             return null;
@@ -74,7 +74,7 @@ public class FacultyDAO {
     public boolean saveCourse(Course course) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO courses " +
-                    "(name, maxGrade, teacherId) " +
+                    "(name, max_grade, teacher_id) " +
                     "VALUES(?, ?, (SELECT id from teachers WHERE id=?))");
             statement.setString(1, course.getName());
             statement.setInt(2, course.getMaxGrade());
@@ -91,7 +91,7 @@ public class FacultyDAO {
         try {
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE courses " +
-                            "SET name=?, maxGrade=?, teacherId=(SELECT id from teachers WHERE id=?)" +
+                            "SET name=?, max_grade=?, teacher_id=(SELECT id from teachers WHERE id=?)" +
                             "WHERE id=?"
             );
             statement.setString(1, updatedCourse.getName());
@@ -323,13 +323,13 @@ public class FacultyDAO {
     public List<StudentCourseRelation> indexStudentCourseRelation() {
         List<StudentCourseRelation> studentCourseRelationsList = new ArrayList<>();
 
-        String sql = "SELECT * FROM studentCourseRelations";
+        String sql = "SELECT * FROM student_course_relations";
         try {
             ResultSet resultSet = connection.createStatement().executeQuery(sql);
             while (resultSet.next()) {
                 long id = resultSet.getLong("id");
-                long studentId = resultSet.getLong("studentId");
-                long courseId = resultSet.getLong("courseId");
+                long studentId = resultSet.getLong("student_id");
+                long courseId = resultSet.getLong("course_id");
                 int grade = resultSet.getInt("grade");
                 String review = resultSet.getString("review");
 
@@ -349,7 +349,7 @@ public class FacultyDAO {
 
     public StudentCourseRelation getStudentCourseRelation(long id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM studentCourseRelations " +
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM student_course_relations " +
                     "WHERE id=?");
             statement.setLong(1, id);
 
@@ -357,8 +357,8 @@ public class FacultyDAO {
 
             while (resultSet.next()) {
                 return new StudentCourseRelation(resultSet.getLong("id"),
-                        getStudent(resultSet.getLong("studentId")),
-                        getCourse(resultSet.getLong("courseId")),
+                        getStudent(resultSet.getLong("student_id")),
+                        getCourse(resultSet.getLong("course_id")),
                         resultSet.getInt("grade"),
                         resultSet.getString("review"));
             }
@@ -372,8 +372,8 @@ public class FacultyDAO {
 
     public boolean saveStudentCourseRelation(StudentCourseRelation studentCourseRelation) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO studentCourseRelations " +
-                    "(studentId, courseId, grade, review) " +
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO student_course_relations " +
+                    "(student_id, course_id, grade, review) " +
                     "VALUES((SELECT id from students WHERE id=?), (SELECT id from courses WHERE id=?), ?, ?)");
             statement.setLong(1, studentCourseRelation.getStudent().getId());
             statement.setLong(2, studentCourseRelation.getCourse().getId());
@@ -390,8 +390,8 @@ public class FacultyDAO {
     public boolean updateStudentCourseRelation(long id, StudentCourseRelation updatedStudentCourseRelation) {
         try {
             PreparedStatement statement = connection.prepareStatement(
-                    "UPDATE studentCourseRelations " +
-                            "SET studentId=(SELECT id from students WHERE id=?), courseId=(SELECT id from courses WHERE id=?), ?, ?" +
+                    "UPDATE student_course_relations " +
+                            "SET student_id=(SELECT id from students WHERE id=?), course_id=(SELECT id from courses WHERE id=?), grade=?, review=?" +
                             "WHERE id=?"
             );
             statement.setLong(1, updatedStudentCourseRelation.getStudent().getId());
@@ -414,7 +414,7 @@ public class FacultyDAO {
 
     public boolean deleteStudentCourseRelation(long id) {
         try {
-            PreparedStatement statement = connection.prepareStatement("DELETE FROM studentCourseRelations " +
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM student_course_relations " +
                     "WHERE id = ?");
             statement.setLong(1, id);
             int exec = statement.executeUpdate();
