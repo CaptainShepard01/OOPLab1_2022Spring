@@ -48,10 +48,10 @@ public class CourseController extends HttpServlet {
             stringBuilder.append(Utils.getViewPage(course));
         }
 
-
-        request.setAttribute("info", stringBuilder);
         request.setAttribute("teacherList", this.facultyDAO.indexTeacher());
         request.setAttribute("objectName", "Course");
+
+        request.setAttribute("info", stringBuilder);
         request.setAttribute("action", "None");
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/index.jsp");
@@ -80,5 +80,6 @@ public class CourseController extends HttpServlet {
                 System.out.println("Not implemented action!");
             }
         }
+        session.invalidate();
     }
 }

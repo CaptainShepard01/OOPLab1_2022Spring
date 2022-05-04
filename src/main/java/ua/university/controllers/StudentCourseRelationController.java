@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -63,6 +64,28 @@ public class StudentCourseRelationController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        HttpSession session = req.getSession();
+        String action = session.getAttribute("action").toString();
+        switch (action) {
+            case "DELETE": {
+                this.facultyDAO.deleteStudentCourseRelation(Long.parseLong(session.getAttribute("delete_id").toString()));
+                resp.sendRedirect("/studentCourseRelations");
+                break;
+            }
+            case "POST": {
+                Student student = this.facultyDAO.getStudent(Long.parseLong(req.getParameter("student_id")));
+                Course course = this.facultyDAO.getCourse(Long.parseLong(req.getParameter("course_id")));
+                int grade = Integer.parseInt(req.getParameter("grade"));
+                String review = req.getParameter("review");
+                review.replaceAll("<", "&lt").replaceAll(">", "&gt");
+                this.facultyDAO.saveStudentCourseRelation(new StudentCourseRelation(-1, student, course, grade, review));
+                resp.sendRedirect("/studentCourseRelations");
+                break;
+            }
+            default: {
+                System.out.println("Not implemented action!");
+            }
+        }
+        session.invalidate();
     }
 }

@@ -12,6 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -59,6 +60,24 @@ public class StudentController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        HttpSession session = req.getSession();
+        String action = session.getAttribute("action").toString();
+        switch (action) {
+            case "DELETE": {
+                this.facultyDAO.deleteStudent(Long.parseLong(session.getAttribute("delete_id").toString()));
+                resp.sendRedirect("/students");
+                break;
+            }
+            case "POST": {
+                String name = req.getParameter("name");
+                this.facultyDAO.saveStudent(new Student(-1, name));
+                resp.sendRedirect("/students");
+                break;
+            }
+            default: {
+                System.out.println("Not implemented action!");
+            }
+        }
+        session.invalidate();
     }
 }

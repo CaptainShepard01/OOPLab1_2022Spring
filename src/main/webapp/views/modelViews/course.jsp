@@ -28,3 +28,12 @@
     <input type="submit" value="Add!" />
 </form>
 <% } %>
+
+
+<% if (request.getAttribute("objectName") == "Course" && request.getAttribute("delete_id") != null) { %>
+<form action="/courses" method="post">
+    <% session.setAttribute("action", "DELETE"); %>
+    <% session.setAttribute("delete_id", request.getAttribute("delete_id")); %>
+    <input type="submit" value="Delete" />
+</form>
+<% } %>
