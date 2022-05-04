@@ -20,6 +20,11 @@ public class Teacher implements IModel {
         return id;
     }
 
+    @Override
+    public String getURLPattern() {
+        return "/teachers";
+    }
+
     public void setId(long id) {
         this.id = id;
     }

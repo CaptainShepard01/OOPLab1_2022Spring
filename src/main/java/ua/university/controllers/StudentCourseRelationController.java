@@ -2,8 +2,12 @@ package ua.university.controllers;
 
 import ua.university.DAO.FacultyDAO;
 import ua.university.models.Course;
+import ua.university.models.Student;
 import ua.university.models.StudentCourseRelation;
+import ua.university.models.Teacher;
+import ua.university.utils.Utils;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,15 +33,32 @@ public class StudentCourseRelationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html");
-        try (PrintWriter writer = response.getWriter()) {
-            StudentCourseRelation[] studentCourseRelations = this.facultyDAO.indexStudentCourseRelation().toArray(new StudentCourseRelation[0]);
+        StringBuilder stringBuilder = new StringBuilder();
 
-            writer.println("<h2>Welcome to Student-Course Relation table</h2>");
-            for (StudentCourseRelation studentCourseRelation : studentCourseRelations) {
-                writer.println(studentCourseRelation);
-            }
+        if (request.getParameter("id") == null) {
+            stringBuilder.append("<h2>Welcome to Student-Course relations table</h2>\n");
+
+            StudentCourseRelation[] studentCourseRelations = this.facultyDAO.indexStudentCourseRelation().toArray(new StudentCourseRelation[0]);
+            stringBuilder.append(Utils.getTable(studentCourseRelations));
+        } else {
+            long scr_id = Long.parseLong(request.getParameter("id"));
+            StudentCourseRelation studentCourseRelation = this.facultyDAO.getStudentCourseRelation(scr_id);
+
+            request.setAttribute("delete_id", scr_id);
+
+            stringBuilder.append(Utils.getViewPage(studentCourseRelation));
         }
+
+        request.setAttribute("studentList", this.facultyDAO.indexStudent());
+        request.setAttribute("courseList", this.facultyDAO.indexCourse());
+
+        request.setAttribute("objectName", "StudentCourseRelation");
+
+        request.setAttribute("info", stringBuilder);
+        request.setAttribute("action", "None");
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/index.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     @Override

@@ -45,15 +45,7 @@ public class CourseController extends HttpServlet {
 
             request.setAttribute("delete_id", course_id);
 
-            stringBuilder.append("<h4>Course ID</h4>\n")
-                    .append("<p>").append(course.getId()).append("</p>")
-                    .append("<h4>Course Name</h4>\n")
-                    .append("<p>").append(course.getName()).append("</p>")
-                    .append("<h4>Course Max grade</h4>\n")
-                    .append("<p>").append(course.getMaxGrade()).append("</p>")
-                    .append("<h4>Course Teacher</h4>\n")
-                    .append("<p>").append(course.getTeacher().toString()).append("</p>")
-                    .append("<br>");
+            stringBuilder.append(Utils.getViewPage(course));
         }
 
 

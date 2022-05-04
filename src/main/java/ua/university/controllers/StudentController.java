@@ -3,7 +3,10 @@ package ua.university.controllers;
 import ua.university.DAO.FacultyDAO;
 import ua.university.models.Course;
 import ua.university.models.Student;
+import ua.university.models.Teacher;
+import ua.university.utils.Utils;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,15 +32,29 @@ public class StudentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html");
-        try (PrintWriter writer = response.getWriter()) {
-            Student[] students = this.facultyDAO.indexStudent().toArray(new Student[0]);
+        StringBuilder stringBuilder = new StringBuilder();
 
-            writer.println("<h2>Welcome to Students table</h2>");
-            for (Student student : students) {
-                writer.println(student);
-            }
+        if (request.getParameter("id") == null) {
+            stringBuilder.append("<h2>Welcome to Students table</h2>\n");
+
+            Student[] students = this.facultyDAO.indexStudent().toArray(new Student[0]);
+            stringBuilder.append(Utils.getTable(students));
+        } else {
+            long student_id = Long.parseLong(request.getParameter("id"));
+            Student student = this.facultyDAO.getStudent(student_id);
+
+            request.setAttribute("delete_id", student_id);
+
+            stringBuilder.append(Utils.getViewPage(student));
         }
+
+        request.setAttribute("objectName", "Student");
+
+        request.setAttribute("info", stringBuilder);
+        request.setAttribute("action", "None");
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/index.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     @Override

@@ -24,6 +24,11 @@ public class Course implements IModel {
         return id;
     }
 
+    @Override
+    public String getURLPattern() {
+        return "/courses";
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -67,7 +72,7 @@ public class Course implements IModel {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("Id", String.valueOf(this.id));
         map.put("Name", this.name);
-        map.put("Max Grade", String.valueOf(this.maxGrade));
+        map.put("Max grade", String.valueOf(this.maxGrade));
         map.put("Teacher", this.teacher.toString());
         return map;
     }

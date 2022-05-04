@@ -72,7 +72,10 @@
     <% if (request.getAttribute("info") != null) { %>
     <%= request.getAttribute("info") %>
 
-    <%@include file="course.jsp"%>
+    <%@include file="modelViews/course.jsp"%>
+    <%@include file="modelViews/teacher.jsp"%>
+    <%@include file="modelViews/student.jsp"%>
+    <%@include file="modelViews/studentCourseRelations.jsp"%>
     <% } %>
 
 
