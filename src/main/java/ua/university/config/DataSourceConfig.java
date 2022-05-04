@@ -11,14 +11,15 @@ public class DataSourceConfig {
     static final String PASS = "password";
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("PostgreSQL JDBC Driver is not found. Include it in your library path ");
-            e.printStackTrace();
-            return null;
-        }
-
-        return DriverManager.getConnection(DB_URL, USER, PASS);
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//        } catch (ClassNotFoundException e) {
+//            System.out.println("PostgreSQL JDBC Driver is not found. Include it in your library path ");
+//            e.printStackTrace();
+//            return null;
+//        }
+//
+//        return DriverManager.getConnection(DB_URL, USER, PASS);
+        return null;
     }
 }

@@ -59,15 +59,19 @@
     <a href="/" class="nav__link" data-link>Dashboard</a>
     <a href="/posts" class="nav__link" data-link>Posts</a>
 
-    <a href="/teacher" class="nav__link" data-link>Teaches</a>
-    <a href="/course" class="nav__link" data-link>Courses</a>
-    <a href="/student" class="nav__link" data-link>Students</a>
-    <a href="/studentCourseRelation" class="nav__link" data-link>Students--Courses</a>
+    <a href="/teachers" class="nav__link" data-link>Teaches</a>
+    <a href="/courses" class="nav__link" data-link>Courses</a>
+    <a href="/students" class="nav__link" data-link>Students</a>
+    <a href="/studentCourseRelations" class="nav__link" data-link>Students--Courses</a>
 
     <a href="/settings" class="nav__link" data-link>Settings</a>
 </nav>
 
-<div id="app"></div>
+<div id="app">
+    <% if (request.getAttribute("info") != null) { %>
+    <%= request.getAttribute("info") %>
+    <% } %>
+</div>
 
 <script type="javascript">
     class AbstractView {
@@ -113,7 +117,7 @@
             return `
             <h1>Posts</h1>
             <p>You are viewing the posts!</p>
-        ` ;
+        `;
         }
     }
 
