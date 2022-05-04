@@ -73,7 +73,7 @@ public class Course implements IModel {
         map.put("Id", String.valueOf(this.id));
         map.put("Name", this.name);
         map.put("Max grade", String.valueOf(this.maxGrade));
-        map.put("Teacher", this.teacher.toString());
+        map.put("Teacher", this.teacher.getName());
         return map;
     }
 }

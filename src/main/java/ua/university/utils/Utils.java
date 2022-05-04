@@ -8,7 +8,7 @@ public class Utils {
     public Utils() {
     }
 
-    public static StringBuilder getViewPage(IModel model){
+    public static StringBuilder getViewPage(IModel model) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, String> map = model.getMap();
 
@@ -27,10 +27,10 @@ public class Utils {
             return stringBuilder;
 
         Map<String, String> map = models[0].getMap();
-        stringBuilder.append("<table>\n<thead>\n<tr>\n");
+        stringBuilder.append("<table  class=\"table table-bordered table-hover table-sm\">\n<thead>\n<tr>\n");
 
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            stringBuilder.append("<td>").append(entry.getKey()).append("</td>\n");
+            stringBuilder.append("<th scope=\"col\">").append(entry.getKey()).append("</th>\n");
         }
 
         stringBuilder.append("</tr>\n</thead>\n<tbody>\n");
@@ -46,12 +46,15 @@ public class Utils {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, String> map = model.getMap();
 
-        stringBuilder.append("<tr style=\"cursor:pointer\" onclick=\"window.location.href = '")
+        stringBuilder.append("<tr onclick=\"window.location.href = '")
                 .append(model.getURLPattern()).append("?id=")
                 .append(model.getId())
                 .append("';\">\n");
         for (String value : map.values()) {
-            stringBuilder.append("<td>").append(value).append("</td>\n");
+            if (value.equals("Id"))
+                stringBuilder.append("<th scope=\"row\">").append(value).append("</th>\n");
+            else
+                stringBuilder.append("<td>").append(value).append("</td>\n");
         }
         stringBuilder.append("</tr>\n");
 
