@@ -1,6 +1,9 @@
 package ua.university.models;
 
-public class Course {
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class Course implements IModel {
     private long id;
     private String name;
     private int maxGrade;

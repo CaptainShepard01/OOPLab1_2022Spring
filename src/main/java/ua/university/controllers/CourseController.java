@@ -2,6 +2,8 @@ package ua.university.controllers;
 
 import ua.university.DAO.FacultyDAO;
 import ua.university.models.Course;
+import ua.university.models.Teacher;
+import ua.university.utils.Utils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -17,7 +20,7 @@ public class CourseController extends HttpServlet {
     private FacultyDAO facultyDAO;
 
     @Override
-    public void init()  {
+    public void init() {
         try {
             this.facultyDAO = new FacultyDAO();
         } catch (ClassNotFoundException | SQLException e) {
@@ -53,10 +56,37 @@ public class CourseController extends HttpServlet {
                     .append("<br>");
         }
 
+
+        request.setAttribute("info", stringBuilder);
+        request.setAttribute("teacherList", this.facultyDAO.indexTeacher());
+        request.setAttribute("objectName", "Course");
+        request.setAttribute("action", "None");
+
+        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/index.jsp");
+        requestDispatcher.forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        HttpSession session = req.getSession();
+        String action = session.getAttribute("action").toString();
+        switch (action) {
+            case "DELETE": {
+                this.facultyDAO.deleteCourse(Long.parseLong(session.getAttribute("delete_id").toString()));
+                resp.sendRedirect("/courses");
+                break;
+            }
+            case "POST": {
+                String name = req.getParameter("name");
+                int maxGrade = Integer.parseInt(req.getParameter("maxGrade"));
+                Teacher teacher = this.facultyDAO.getTeacher(Long.parseLong(req.getParameter("teacher_id")));
+                this.facultyDAO.saveCourse(new Course(-1, name, maxGrade, teacher));
+                resp.sendRedirect("/courses");
+                break;
+            }
+            default: {
+                System.out.println("Not implemented action!");
+            }
+        }
     }
 }

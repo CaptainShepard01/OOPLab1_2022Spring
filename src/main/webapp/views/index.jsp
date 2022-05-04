@@ -1,4 +1,5 @@
-<%--
+<%@ page import="ua.university.models.Teacher" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: balanton
   Date: 5/3/2022
@@ -6,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,6 +71,17 @@
 <div id="app">
     <% if (request.getAttribute("info") != null) { %>
     <%= request.getAttribute("info") %>
+
+    <%@include file="course.jsp"%>
+    <% } %>
+
+
+    <% if (request.getAttribute("delete_id") != null) { %>
+    <form action="/courses" method="post">
+        <% session.setAttribute("action", "DELETE"); %>
+        <% session.setAttribute("delete_id", request.getAttribute("delete_id")); %>
+        <input type="submit" value="Delete" />
+    </form>
     <% } %>
 </div>
 
