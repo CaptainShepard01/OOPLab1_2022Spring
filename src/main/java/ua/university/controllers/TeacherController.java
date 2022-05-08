@@ -1,30 +1,32 @@
 package ua.university.controllers;
 
 import ua.university.DAO.FacultyDAO;
-import ua.university.models.Course;
 import ua.university.models.Teacher;
+import ua.university.service.ControllerService;
+import ua.university.service.CourseControllerService;
+import ua.university.service.TeacherControllerService;
 import ua.university.utils.Utils;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @WebServlet("/teachers")
 public class TeacherController extends HttpServlet {
-    private FacultyDAO facultyDAO;
+    private ControllerService service;
 
     @Override
     public void init() {
         try {
-            this.facultyDAO = new FacultyDAO();
+            this.service = new TeacherControllerService();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -36,17 +38,12 @@ public class TeacherController extends HttpServlet {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (request.getParameter("id") == null) {
-            stringBuilder.append("<h2>Welcome to Teachers table</h2>\n");
-
-            Teacher[] teachers = this.facultyDAO.indexTeacher().toArray(new Teacher[0]);
-            stringBuilder.append(Utils.getTable(teachers));
+            stringBuilder.append(this.service.showAll());
         } else {
             long teacher_id = Long.parseLong(request.getParameter("id"));
-            Teacher teacher = this.facultyDAO.getTeacher(teacher_id);
+            stringBuilder.append(service.showSingle(teacher_id));
 
             request.setAttribute("delete_id", teacher_id);
-
-            stringBuilder.append(Utils.getViewPage(teacher));
         }
 
         request.setAttribute("objectName", "Teacher");
@@ -64,13 +61,15 @@ public class TeacherController extends HttpServlet {
         String action = session.getAttribute("action").toString();
         switch (action) {
             case "DELETE": {
-                this.facultyDAO.deleteTeacher(Long.parseLong(session.getAttribute("delete_id").toString()));
+                long delete_id = Long.parseLong(session.getAttribute("delete_id").toString());
+                this.service.onDelete(delete_id);
                 resp.sendRedirect("/teachers");
                 break;
             }
             case "POST": {
                 String name = req.getParameter("name");
-                this.facultyDAO.saveTeacher(new Teacher(-1, name));
+                String[] params = new String[]{name};
+                this.service.onAdd(params);
                 resp.sendRedirect("/teachers");
                 break;
             }

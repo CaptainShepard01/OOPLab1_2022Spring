@@ -121,14 +121,39 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.0</version>
         </dependency>
+
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.5</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-servlet-filter-adapter -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-servlet-filter-adapter</artifactId>
+            <version>18.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-tomcat-adapter-dist -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-tomcat-adapter-dist</artifactId>
+            <version>18.0.0</version>
+            <type>pom</type>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <finalName>OOPLabs2022Spring</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
@@ -167,14 +192,27 @@
                     <artifactId>liquibase-maven-plugin</artifactId>
                     <version>${liquibase.version}</version>
                     <configuration>
-                        <propertyFile>${profile.propertyFile}</propertyFile>
-                        <changeLogFile>${profile.changeLogFile}</changeLogFile>
-                        <dataDir>${profile.dataDir}</dataDir>
+                        <propertyFile>src/main/resources/liquibaseSettings/dev/liquibase.properties</propertyFile>
+                        <changeLogFile>src/main/resources/liquibaseSettings/dev/db/changelog/changelog-master.xml</changeLogFile>
+                        <dataDir>src/main/resources/liquibaseSettings/dev/data/</dataDir>
                         <!-- log  -->
                         <verbose>${profile.verbose}</verbose>
                         <logging>${profile.logging}</logging>
                         <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+<!--                        <driver>org.postgresql.Driver</driver>-->
+<!--                        <url>jdbc:postgresql://localhost:5432/FacultyOOPLabs</url>-->
+<!--                        <username>postgres</username>-->
+<!--                        <password>password</password>-->
+<!--                        <outputChangeLogFile>myGenChangeLog.xml</outputChangeLogFile>-->
                     </configuration>
+                    <executions>
+                        <execution>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>update</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -209,7 +247,7 @@
         <!--      </activation>-->
         <!--      <properties>-->
         <!--        <profile.propertyFile>prod/liquibase.properties</profile.propertyFile>-->
-        <!--        <profile.changeLogFile>prod/master.xml</profile.changeLogFile>-->
+        <!--        <profile.changeLogFile>prod/db-master.xml</profile.changeLogFile>-->
         <!--        <profile.dataDir>prod/data</profile.dataDir>-->
         <!--        <profile.verbose>false</profile.verbose>-->
         <!--        <profile.logging>info</profile.logging>-->

@@ -3,10 +3,15 @@ package ua.university.controllers;
 import ua.university.DAO.FacultyDAO;
 import ua.university.models.Course;
 import ua.university.models.Teacher;
+import ua.university.service.ControllerService;
+import ua.university.service.CourseControllerService;
 import ua.university.utils.Utils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,12 +22,12 @@ import java.sql.SQLException;
 
 @WebServlet("/courses")
 public class CourseController extends HttpServlet {
-    private FacultyDAO facultyDAO;
+    private ControllerService service;
 
     @Override
     public void init() {
         try {
-            this.facultyDAO = new FacultyDAO();
+            this.service = new CourseControllerService();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -35,20 +40,15 @@ public class CourseController extends HttpServlet {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (request.getParameter("id") == null) {
-            stringBuilder.append("<h2>Welcome to Courses table</h2>\n");
-
-            Course[] courses = this.facultyDAO.indexCourse().toArray(new Course[0]);
-            stringBuilder.append(Utils.getTable(courses));
+            stringBuilder.append(service.showAll());
         } else {
             long course_id = Long.parseLong(request.getParameter("id"));
-            Course course = this.facultyDAO.getCourse(course_id);
+            stringBuilder.append(service.showSingle(course_id));
 
             request.setAttribute("delete_id", course_id);
-
-            stringBuilder.append(Utils.getViewPage(course));
         }
 
-        request.setAttribute("teacherList", this.facultyDAO.indexTeacher());
+        request.setAttribute("teacherList", this.service.getAllTeachers());
         request.setAttribute("objectName", "Course");
 
         request.setAttribute("info", stringBuilder);
@@ -64,15 +64,17 @@ public class CourseController extends HttpServlet {
         String action = session.getAttribute("action").toString();
         switch (action) {
             case "DELETE": {
-                this.facultyDAO.deleteCourse(Long.parseLong(session.getAttribute("delete_id").toString()));
+                long delete_id = Long.parseLong(session.getAttribute("delete_id").toString());
+                this.service.onDelete(delete_id);
                 resp.sendRedirect("/courses");
                 break;
             }
             case "POST": {
                 String name = req.getParameter("name");
-                int maxGrade = Integer.parseInt(req.getParameter("maxGrade"));
-                Teacher teacher = this.facultyDAO.getTeacher(Long.parseLong(req.getParameter("teacher_id")));
-                this.facultyDAO.saveCourse(new Course(-1, name, maxGrade, teacher));
+                String maxGrade = req.getParameter("maxGrade");
+                String teacherId = req.getParameter("teacher_id");
+                String[] params = new String[] {name, maxGrade, teacherId};
+                this.service.onAdd(params);
                 resp.sendRedirect("/courses");
                 break;
             }

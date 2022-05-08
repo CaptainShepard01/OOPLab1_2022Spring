@@ -1,11 +1,7 @@
 package ua.university.controllers;
 
-import ua.university.DAO.FacultyDAO;
-import ua.university.models.Course;
-import ua.university.models.Student;
-import ua.university.models.StudentCourseRelation;
-import ua.university.models.Teacher;
-import ua.university.utils.Utils;
+import ua.university.service.ControllerService;
+import ua.university.service.StudentCourseRelationControllerService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,17 +11,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @WebServlet("/studentCourseRelations")
 public class StudentCourseRelationController extends HttpServlet {
-    private FacultyDAO facultyDAO;
+    private ControllerService service;
 
     @Override
     public void init() {
         try {
-            this.facultyDAO = new FacultyDAO();
+            this.service = new StudentCourseRelationControllerService();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -37,21 +32,16 @@ public class StudentCourseRelationController extends HttpServlet {
         StringBuilder stringBuilder = new StringBuilder();
 
         if (request.getParameter("id") == null) {
-            stringBuilder.append("<h2>Welcome to Student-Course relations table</h2>\n");
-
-            StudentCourseRelation[] studentCourseRelations = this.facultyDAO.indexStudentCourseRelation().toArray(new StudentCourseRelation[0]);
-            stringBuilder.append(Utils.getTable(studentCourseRelations));
+            stringBuilder.append(service.showAll());
         } else {
-            long scr_id = Long.parseLong(request.getParameter("id"));
-            StudentCourseRelation studentCourseRelation = this.facultyDAO.getStudentCourseRelation(scr_id);
+            long student_course_id = Long.parseLong(request.getParameter("id"));
+            stringBuilder.append(service.showSingle(student_course_id));
 
-            request.setAttribute("delete_id", scr_id);
-
-            stringBuilder.append(Utils.getViewPage(studentCourseRelation));
+            request.setAttribute("delete_id", student_course_id);
         }
 
-        request.setAttribute("studentList", this.facultyDAO.indexStudent());
-        request.setAttribute("courseList", this.facultyDAO.indexCourse());
+        request.setAttribute("studentList", this.service.getAllStudents());
+        request.setAttribute("courseList", this.service.getAllCourses());
 
         request.setAttribute("objectName", "StudentCourseRelation");
 
@@ -68,17 +58,19 @@ public class StudentCourseRelationController extends HttpServlet {
         String action = session.getAttribute("action").toString();
         switch (action) {
             case "DELETE": {
-                this.facultyDAO.deleteStudentCourseRelation(Long.parseLong(session.getAttribute("delete_id").toString()));
+                long delete_id = Long.parseLong(session.getAttribute("delete_id").toString());
+                this.service.onDelete(delete_id);
                 resp.sendRedirect("/studentCourseRelations");
                 break;
             }
             case "POST": {
-                Student student = this.facultyDAO.getStudent(Long.parseLong(req.getParameter("student_id")));
-                Course course = this.facultyDAO.getCourse(Long.parseLong(req.getParameter("course_id")));
-                int grade = Integer.parseInt(req.getParameter("grade"));
+                String studentId = req.getParameter("student_id");
+                String courseId = req.getParameter("course_id");
+                String grade = req.getParameter("grade");
                 String review = req.getParameter("review");
                 review.replaceAll("<", "&lt").replaceAll(">", "&gt");
-                this.facultyDAO.saveStudentCourseRelation(new StudentCourseRelation(-1, student, course, grade, review));
+                String[] params = new String[]{studentId, courseId, grade, review};
+                this.service.onAdd(params);
                 resp.sendRedirect("/studentCourseRelations");
                 break;
             }

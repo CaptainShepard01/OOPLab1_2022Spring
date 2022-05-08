@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="balanton" id="changelog-entities-1.0">
+        <createTable tableName="teachers" tablespace="pg_default">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="courses" tablespace="pg_default">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="max_grade" type="int">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="teacher_id" type="int">
+                <constraints foreignKeyName="fk_courses_teachers" references="teachers(id)" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="students" tablespace="pg_default">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="student_course_relations" tablespace="pg_default">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="student_id" type="int">
+                <constraints foreignKeyName="fk_sc_students" references="students(id)" nullable="false"/>
+            </column>
+            <column name="course_id" type="int">
+                <constraints foreignKeyName="fk_sc_courses" references="courses(id)" nullable="false"/>
+            </column>
+            <column name="grade" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="review" type="varchar"></column>
+        </createTable>
+        <addUniqueConstraint columnNames="student_id, course_id" tableName="student_course_relations"></addUniqueConstraint>
+    </changeSet>
+</databaseChangeLog>

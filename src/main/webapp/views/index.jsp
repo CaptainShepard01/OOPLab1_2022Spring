@@ -56,7 +56,7 @@
         color: #009579;
     }
 
-    tr {
+    .models-table {
         cursor: pointer;
     }
 </style>
@@ -70,7 +70,7 @@
     <a href="/students" class="nav__link" data-link>Students</a>
     <a href="/studentCourseRelations" class="nav__link" data-link>Students--Courses</a>
 
-    <a href="/settings" class="nav__link" data-link>Settings</a>
+    <a href="/rocket" class="nav__link" data-link>Rocket!</a>
 </nav>
 
 <div id="app">
