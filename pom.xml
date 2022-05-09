@@ -210,29 +210,11 @@
                 </property>
             </activation>
             <properties>
-                <profile.propertyFile>liquidbaseSettings/dev/data</profile.propertyFile>
-                <profile.changeLogFile>liquidbaseSettings/dev/master.xml</profile.changeLogFile>
-                <profile.dataDir>liquidbaseSettings/dev/data</profile.dataDir>
+                <profile.propertyFile>src/main/resources/liquibaseSettings/dev/liquibase.properties</profile.propertyFile>
+                <profile.changeLogFile>src/main/resources/liquibaseSettings/dev/db/changelog-master.xml</profile.changeLogFile>
                 <profile.verbose>true</profile.verbose>
                 <profile.logging>debug</profile.logging>
             </properties>
         </profile>
-        <!--    &lt;!&ndash; Production settings, -Denv=prod &ndash;&gt;-->
-        <!--    <profile>-->
-        <!--      <id>prod</id>-->
-        <!--      <activation>-->
-        <!--        <property>-->
-        <!--          <name>env</name>-->
-        <!--          <value>prod</value>-->
-        <!--        </property>-->
-        <!--      </activation>-->
-        <!--      <properties>-->
-        <!--        <profile.propertyFile>prod/liquibase.properties</profile.propertyFile>-->
-        <!--        <profile.changeLogFile>prod/db-master.xml</profile.changeLogFile>-->
-        <!--        <profile.dataDir>prod/data</profile.dataDir>-->
-        <!--        <profile.verbose>false</profile.verbose>-->
-        <!--        <profile.logging>info</profile.logging>-->
-        <!--      </properties>-->
-        <!--    </profile>-->
     </profiles>
 </project>
