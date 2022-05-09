@@ -1,64 +1,126 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
+    <display-name>Archetype Created Web Application</display-name>
 
-  <!--  solve xss Loophole  -->
-  <filter>
-    <filter-name>xssFilter</filter-name>
-    <filter-class>ua.university.filters.XssFilter</filter-class>
-  </filter>
-  <!--  solve xss Loophole  -->
-  <filter-mapping>
-    <filter-name>xssFilter</filter-name>
-    <!-- Filter path -->
-    <url-pattern>*</url-pattern>
-  </filter-mapping>
+    <!--  solve xss Loophole  -->
+    <filter>
+        <filter-name>xssFilter</filter-name>
+        <filter-class>ua.university.filters.XssFilter</filter-class>
+    </filter>
+    <!--  solve xss Loophole  -->
+    <filter-mapping>
+        <filter-name>xssFilter</filter-name>
+        <!-- Filter path -->
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
 
-  <servlet>
-    <servlet-name>ErrorDemo</servlet-name>
-    <servlet-class>ua.university.controllers.ErrorController</servlet-class>
-  </servlet>
+    <servlet>
+        <servlet-name>ErrorDemo</servlet-name>
+        <servlet-class>ua.university.controllers.ErrorController</servlet-class>
+    </servlet>
 
-  <servlet-mapping>
-    <servlet-name>ErrorDemo</servlet-name>
-    <url-pattern>/ErrorDemo</url-pattern>
-  </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ErrorDemo</servlet-name>
+        <url-pattern>/ErrorDemo</url-pattern>
+    </servlet-mapping>
 
-  <welcome-file-list>
-    <welcome-file>/views/index.jsp</welcome-file>
-  </welcome-file-list>
+    <welcome-file-list>
+        <welcome-file>/views/index.jsp</welcome-file>
+    </welcome-file-list>
 
-  <error-page>
-    <error-code>404</error-code>
-    <location>/ErrorDemo</location>
-  </error-page>
-
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>Secured</web-resource-name>
-      <url-pattern>/courses</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>course_access</role-name>
-    </auth-constraint>
-  </security-constraint>
-
-  <login-config>
-    <auth-method>BASIC</auth-method>
-    <realm-name>this is ignored currently</realm-name>
-  </login-config>
-
-  <security-role>
-    <role-name>course_access</role-name>
-  </security-role>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/ErrorDemo</location>
+    </error-page>
 
 
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Courses</web-resource-name>
+            <url-pattern>/courses</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>courses_full_access</role-name>
+            <role-name>courses_view_access</role-name>
+        </auth-constraint>
+    </security-constraint>
 
-  <!--  <error-page>-->
-<!--    <exception-type>java.lang.Error</exception-type>-->
-<!--    <location>/ErrorDemo</location>-->
-<!--  </error-page>-->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Teachers</web-resource-name>
+            <url-pattern>/teachers</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>teachers_full_access</role-name>
+            <role-name>teachers_view_access</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Students</web-resource-name>
+            <url-pattern>/students</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>students_full_access</role-name>
+            <role-name>students_view_access</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Student-Course Relations</web-resource-name>
+            <url-pattern>/studentCourseRelations</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>student_course_relations_full_access</role-name>
+            <role-name>student_course_relations_student_access</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>FacultyOOPLabs</realm-name>
+    </login-config>
+
+    <security-role>
+        <role-name>courses_full_access</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>courses_view_access</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>students_full_access</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>students_view_access</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>student_course_relations_full_access</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>student_course_relations_student_access</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>teachers_full_access</role-name>
+    </security-role>
+
+    <security-role>
+        <role-name>teachers_view_access</role-name>
+    </security-role>
+
+
+    <!--  <error-page>-->
+    <!--    <exception-type>java.lang.Error</exception-type>-->
+    <!--    <location>/ErrorDemo</location>-->
+    <!--  </error-page>-->
 </web-app>

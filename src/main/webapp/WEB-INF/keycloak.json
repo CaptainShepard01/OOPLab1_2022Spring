@@ -1,11 +1,10 @@
 {
-  "realm": "demo",
+  "realm": "FacultyOOPLabs",
   "auth-server-url": "http://127.0.0.1:8082/",
   "ssl-required": "external",
-  "resource": "demo-admin-tomcat",
-  "credentials": {
-    "secret": "MrI2PiDy7MPbWFrE2s3B3N10262QxsPy"
-  },
-  "confidential-port": 0,
-  "use-resource-role-mappings": true
+  "resource": "Faculty",
+  "public-client": true,
+  "verify-token-audience": true,
+  "use-resource-role-mappings": true,
+  "confidential-port": 0
 }

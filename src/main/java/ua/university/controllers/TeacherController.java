@@ -5,6 +5,7 @@ import ua.university.models.Teacher;
 import ua.university.service.ControllerService;
 import ua.university.service.CourseControllerService;
 import ua.university.service.TeacherControllerService;
+import ua.university.utils.KeycloakTokenUtil;
 import ua.university.utils.Utils;
 
 import javax.servlet.RequestDispatcher;
@@ -35,6 +36,10 @@ public class TeacherController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        request.setAttribute("username", KeycloakTokenUtil.getPreferredUsername(request));
+        request.setAttribute("roles", KeycloakTokenUtil.getRoles(request));
+
         StringBuilder stringBuilder = new StringBuilder();
 
         if (request.getParameter("id") == null) {

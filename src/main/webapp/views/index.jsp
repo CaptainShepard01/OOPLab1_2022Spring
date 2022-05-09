@@ -11,7 +11,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Faculty Application</title>
 </head>
 
@@ -63,26 +64,34 @@
 <nav class="nav flex-column">
     <a href="/" class="nav__link" data-link>Dashboard</a>
 
-    <a href="/teachers" class="nav__link" data-link>Teaches</a>
+    <a href="/teachers" class="nav__link" data-link>Teachers</a>
     <a href="/courses" class="nav__link" data-link>Courses</a>
     <a href="/students" class="nav__link" data-link>Students</a>
     <a href="/studentCourseRelations" class="nav__link" data-link>Students--Courses</a>
+    <a href="/logout" class="nav__link" data-link>Logout</a>
 
     <a href="/rocket" class="nav__link" data-link>Rocket!</a>
+
 </nav>
 
 <div id="app">
     <% if (request.getAttribute("info") != null) { %>
     <%= request.getAttribute("info") %>
 
-    <%@include file="modelViews/course.jsp"%>
-    <%@include file="modelViews/teacher.jsp"%>
-    <%@include file="modelViews/student.jsp"%>
-    <%@include file="modelViews/studentCourseRelations.jsp"%>
+
+    <%! Set<String> rolesSet = null; %>
+
+    <%
+        if (request.getAttribute("roles") != null) {
+            rolesSet = (Set<String>) request.getAttribute("roles");
+        }
+    %>
+
+    <%@include file="modelViews/course.jsp" %>
+    <%@include file="modelViews/teacher.jsp" %>
+    <%@include file="modelViews/student.jsp" %>
+    <%@include file="modelViews/studentCourseRelations.jsp" %>
     <% } %>
-
-
-
 </div>
 
 </body>
