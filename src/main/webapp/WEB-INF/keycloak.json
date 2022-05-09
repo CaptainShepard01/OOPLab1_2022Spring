@@ -1,0 +1,11 @@
+{
+  "realm": "demo",
+  "auth-server-url": "http://127.0.0.1:8082/",
+  "ssl-required": "external",
+  "resource": "demo-admin-tomcat",
+  "credentials": {
+    "secret": "MrI2PiDy7MPbWFrE2s3B3N10262QxsPy"
+  },
+  "confidential-port": 0,
+  "use-resource-role-mappings": true
+}

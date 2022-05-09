@@ -128,22 +128,12 @@
             <version>2.5</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-servlet-filter-adapter -->
         <dependency>
             <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-servlet-filter-adapter</artifactId>
+            <artifactId>keycloak-core</artifactId>
             <version>18.0.0</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-tomcat-adapter-dist -->
-        <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-tomcat-adapter-dist</artifactId>
-            <version>18.0.0</version>
-            <type>pom</type>
-        </dependency>
-
     </dependencies>
 
     <build>
