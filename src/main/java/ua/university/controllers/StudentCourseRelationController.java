@@ -68,7 +68,6 @@ public class StudentCourseRelationController extends HttpServlet {
                 String courseId = req.getParameter("course_id");
                 String grade = req.getParameter("grade");
                 String review = req.getParameter("review");
-                review.replaceAll("<", "&lt").replaceAll(">", "&gt");
                 String[] params = new String[]{studentId, courseId, grade, review};
                 this.service.onAdd(params);
                 resp.sendRedirect("/studentCourseRelations");

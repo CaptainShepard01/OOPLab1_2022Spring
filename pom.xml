@@ -196,8 +196,8 @@
                         <changeLogFile>src/main/resources/liquibaseSettings/dev/db/changelog/changelog-master.xml</changeLogFile>
                         <dataDir>src/main/resources/liquibaseSettings/dev/data/</dataDir>
                         <!-- log  -->
-                        <verbose>${profile.verbose}</verbose>
-                        <logging>${profile.logging}</logging>
+<!--                        <verbose>${profile.verbose}</verbose>-->
+<!--                        <logging>${profile.logging}</logging>-->
                         <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
 <!--                        <driver>org.postgresql.Driver</driver>-->
 <!--                        <url>jdbc:postgresql://localhost:5432/FacultyOOPLabs</url>-->
