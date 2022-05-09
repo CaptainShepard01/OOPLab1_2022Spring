@@ -193,26 +193,7 @@
                     <version>${liquibase.version}</version>
                     <configuration>
                         <propertyFile>src/main/resources/liquibaseSettings/dev/liquibase.properties</propertyFile>
-                        <changeLogFile>src/main/resources/liquibaseSettings/dev/db/changelog/changelog-master.xml</changeLogFile>
-                        <dataDir>src/main/resources/liquibaseSettings/dev/data/</dataDir>
-                        <!-- log  -->
-<!--                        <verbose>${profile.verbose}</verbose>-->
-<!--                        <logging>${profile.logging}</logging>-->
-                        <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
-<!--                        <driver>org.postgresql.Driver</driver>-->
-<!--                        <url>jdbc:postgresql://localhost:5432/FacultyOOPLabs</url>-->
-<!--                        <username>postgres</username>-->
-<!--                        <password>password</password>-->
-<!--                        <outputChangeLogFile>myGenChangeLog.xml</outputChangeLogFile>-->
                     </configuration>
-                    <executions>
-                        <execution>
-                            <phase>process-resources</phase>
-                            <goals>
-                                <goal>update</goal>
-                            </goals>
-                        </execution>
-                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
