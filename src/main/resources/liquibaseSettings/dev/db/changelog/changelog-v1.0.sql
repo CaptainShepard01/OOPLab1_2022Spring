@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS public.student_course_relations
     ON DELETE CASCADE,
     UNIQUE (student_id, course_id),
     grade integer DEFAULT 0,
-    review character varying
+    review character varying DEFAULT ''
 )
 
 TABLESPACE pg_default;

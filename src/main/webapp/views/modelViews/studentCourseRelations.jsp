@@ -4,7 +4,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-<% if (request.getAttribute("objectName") == "StudentCourseRelation" && rolesSet != null && rolesSet.contains("student_course_relations_full_access")) { %>
+<%
+    if (request.getAttribute("objectName") == "StudentCourseRelation" && rolesSet != null &&
+        (rolesSet.contains("student_course_relations_student_access") ||
+                rolesSet.contains("student_course_relations_full_access"))) {
+%>
     <% if (request.getAttribute("delete_id") == null) { %>
         <form action="/studentCourseRelations" method="post">
             <div class="form-group">
@@ -25,16 +29,18 @@
                     <% } %>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="gradeField">Grade</label>
-                <input type="number" name="grade" class="form-control" id="gradeField" placeholder="Enter grade" required
-                       min="1" max="30"/>
-            </div>
-            <div class="form-group">
-                <label for="reviewField">Review</label>
-                <textarea type="text" rows="5" cols="40" name="review" class="form-control" id="reviewField"
-                          placeholder="Enter review" required></textarea>
-            </div>
+            <% if (rolesSet.contains("student_course_relations_full_access")) { %>
+                <div class="form-group">
+                    <label for="gradeField">Grade</label>
+                    <input type="number" name="grade" class="form-control" id="gradeField" placeholder="Enter grade" required
+                           min="1" max="30"/>
+                </div>
+                <div class="form-group">
+                    <label for="reviewField">Review</label>
+                    <textarea type="text" rows="5" cols="40" name="review" class="form-control" id="reviewField"
+                              placeholder="Enter review" required></textarea>
+                </div>
+            <% } %>
             <% session.setAttribute("action", "POST"); %>
             <input type="submit" class="btn btn-primary" value="Add!"/>
         </form>

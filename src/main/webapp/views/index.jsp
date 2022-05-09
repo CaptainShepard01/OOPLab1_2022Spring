@@ -75,10 +75,6 @@
 </nav>
 
 <div id="app">
-    <% if (request.getAttribute("info") != null) { %>
-    <%= request.getAttribute("info") %>
-
-
     <%! Set<String> rolesSet = null; %>
 
     <%
@@ -86,6 +82,9 @@
             rolesSet = (Set<String>) request.getAttribute("roles");
         }
     %>
+
+    <% if (request.getAttribute("info") != null) { %>
+    <%= request.getAttribute("info") %>
 
     <%@include file="modelViews/course.jsp" %>
     <%@include file="modelViews/teacher.jsp" %>
