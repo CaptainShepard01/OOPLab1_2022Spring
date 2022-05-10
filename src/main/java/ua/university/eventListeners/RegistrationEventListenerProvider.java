@@ -1,7 +1,13 @@
 package ua.university.eventListeners;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.jboss.resteasy.spi.HttpRequest;
-import org.keycloak.authorization.authorization.AuthorizationTokenService;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventType;
@@ -9,13 +15,14 @@ import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.models.*;
 
 import javax.ws.rs.core.MultivaluedMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Stream;
 
-public class RegistrationEventListenerProvider  implements EventListenerProvider {
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class RegistrationEventListenerProvider implements EventListenerProvider {
     private final KeycloakSession session;
     private final RealmProvider model;
 
@@ -41,6 +48,7 @@ public class RegistrationEventListenerProvider  implements EventListenerProvider
                 System.out.println("Our role model: " + roleModel.getName());
                 newRegisteredUser.grantRole(roleModel);
 
+
             }
 
             if (Objects.equals(ourRole, "[teacher]")) {
@@ -62,5 +70,27 @@ public class RegistrationEventListenerProvider  implements EventListenerProvider
     @Override
     public void close() {
 
+    }
+
+    public void sendPost(String path, String[] args) throws IOException {
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost("http://127.0.0.1/" + path + "/");
+
+        // Request parameters and other properties.
+        List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+        params.add(new BasicNameValuePair("name", args[1]));
+        params.add(new BasicNameValuePair("...", args[2]));
+        httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+////Execute and get the response.
+        HttpResponse response = httpclient.execute(httppost);
+        System.out.println(response.toString());
+//        HttpEntity entity = response.getEntity();
+//
+//        if (entity != null) {
+//            try (InputStream instream = entity.getContent()) {
+//                // do something useful
+//            }
+//        }
     }
 }

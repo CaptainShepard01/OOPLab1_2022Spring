@@ -26,7 +26,7 @@
         <liquibase.version>4.10.0</liquibase.version>
         <postgresql.version>42.3.5</postgresql.version>
         <snakeyaml.version>1.30</snakeyaml.version>
-        <keycloack.version>18.0.0</keycloack.version>
+        <keycloak.version>18.0.0</keycloak.version>
     </properties>
 
     <dependencies>
@@ -120,14 +120,14 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-core</artifactId>
-            <version>18.0.0</version>
+            <version>${keycloak.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.keycloak/keycloak-server-spi -->
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-server-spi</artifactId>
-            <version>18.0.0</version>
+            <version>${keycloak.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -135,7 +135,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-server-spi-private</artifactId>
-            <version>18.0.0</version>
+            <version>${keycloak.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -175,6 +175,16 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>3.15.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-services</artifactId>
+            <version>18.0.0</version>
         </dependency>
 
     </dependencies>
