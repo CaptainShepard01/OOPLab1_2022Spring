@@ -4,6 +4,14 @@
         ${msg("registerTitle")}
     <#elseif section = "form">
         <form id="kc-register-form" class="${properties.kcFormClass!}" action="${url.registrationAction}" method="post">
+            <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('firstName',properties.kcFormGroupErrorClass!)}">
+                <div class="${properties.kcLabelWrapperClass!}">
+                    <label for="firstName" class="${properties.kcLabelClass!}">${msg("firstName")}</label>
+                </div>
+                <div class="${properties.kcInputWrapperClass!}">
+                    <input type="text" id="firstName" class="${properties.kcInputClass!}" name="firstName" value="${(register.formData.firstName!'')}" />
+                </div>
+            </div>
 
             <#if !realm.registrationEmailAsUsername>
                 <div class="${properties.kcFormGroupClass!} ${messagesPerField.printIfExists('username',properties.kcFormGroupErrorClass!)}">
@@ -16,7 +24,9 @@
                 </div>
             </#if>
 
-            <label for="role" class="${properties.kcLabelClass!}">Choose your role:</label>
+            <div class="${properties.kcLabelWrapperClass!}">
+                <label for="role" class="${properties.kcLabelClass!}">Choose your role:</label>
+            </div>
             <select name="role" id="role">
                 <option value="student" >Student</option>
                 <option value="teacher">Teacher</option>
