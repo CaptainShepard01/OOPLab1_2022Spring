@@ -1,13 +1,19 @@
 package ua.university.eventListeners;
 
+import org.jboss.resteasy.spi.HttpRequest;
+import org.keycloak.authorization.authorization.AuthorizationTokenService;
 import org.keycloak.events.Event;
 import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventType;
 import org.keycloak.events.admin.AdminEvent;
-import org.keycloak.models.KeycloakSession;
-import org.keycloak.models.RealmModel;
-import org.keycloak.models.RealmProvider;
-import org.keycloak.models.UserModel;
+import org.keycloak.models.*;
+
+import javax.ws.rs.core.MultivaluedMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 public class RegistrationEventListenerProvider  implements EventListenerProvider {
     private final KeycloakSession session;
@@ -25,17 +31,25 @@ public class RegistrationEventListenerProvider  implements EventListenerProvider
             RealmModel realm = this.model.getRealm(event.getRealmId());
             UserModel newRegisteredUser = this.session.users().getUserById(event.getUserId(), realm);
 
-            String emailPlainContent = "New user registration\n\n" +
-                    "Email: " + newRegisteredUser.getEmail() + "\n" +
-                    "Username: " + newRegisteredUser.getUsername() + "\n" +
-                    "Client: " + event.getClientId();
+            org.jboss.resteasy.spi.HttpRequest req = session.getContext().getContextObject(HttpRequest.class);
+            MultivaluedMap<String, String> formParameters = req.getFormParameters();
 
-            String emailHtmlContent = "<h1>New user registration</h1>" +
-                    "<ul>" +
-                    "<li>Email: " + newRegisteredUser.getEmail() + "</li>" +
-                    "<li>Username: " + newRegisteredUser.getUsername() + "</li>" +
-                    "<li>Client: " + event.getClientId() + "</li>" +
-                    "</ul>";
+            String ourRole = formParameters.get("role").toString();
+
+            if (Objects.equals(ourRole, "[student]")) {
+                RoleModel roleModel = realm.getClientById(realm.getClientByClientId("Faculty").getId()).getRole("student");
+                System.out.println("Our role model: " + roleModel.getName());
+                newRegisteredUser.grantRole(roleModel);
+
+            }
+
+            if (Objects.equals(ourRole, "[teacher]")) {
+                RoleModel roleModel = realm.getClientById(realm.getClientByClientId("Faculty").getId()).getRole("teacher");
+                System.out.println("Our role model: " + roleModel.getName());
+                newRegisteredUser.grantRole(roleModel);
+            }
+
+            System.out.println("Hello, am I alive? Am I? (•_•) ( •_•)>⌐■-■ (⌐■_■) -> " + newRegisteredUser.getUsername());
         }
 
     }

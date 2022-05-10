@@ -32,42 +32,6 @@ public class DataSourceConfig {
             return null;
         }
 
-        Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
-
-//        try {
-//            this.liquibase(connection);
-//        } catch (LiquibaseException e) {
-//            e.printStackTrace();
-//        }
-
-        return connection;
-    }
-
-    public void liquibase(Connection connection) throws LiquibaseException {
-        Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-        Liquibase liquibase = new Liquibase("E:\\Projects\\University\\OOP\\OOPLabs2022Spring\\src\\main\\resources\\liquibaseSettings\\dev\\db\\changelog\\changelog-master.xml", new FileSystemResourceAccessor(), database);
-        List<ChangeSet> changeSets = liquibase.listUnrunChangeSets(null);
-        liquibase.update("");
-        for (RanChangeSet ranChangeSet : database.getRanChangeSetList()) {
-            ChangeSet found = null;
-            for (ChangeSet changeSet : changeSets) {
-                if (ranChangeSet.isSameAs(changeSet)) {
-                    found = changeSet;
-                    break;
-                }
-            }
-
-            if (found == null) {
-                // ran previously
-                continue;
-            }
-            System.out.println(ranChangeSet.getChangeLog());
-            for (Change change : found.getChanges()) {
-                if (change instanceof CreateTableChange) {
-                    System.out.println(((CreateTableChange) change).getTableName());
-                }
-                // handle others
-            }
-        }
+        return DriverManager.getConnection(DB_URL, USER, PASS);
     }
 }

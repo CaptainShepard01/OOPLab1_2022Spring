@@ -62,12 +62,12 @@
 
 <body>
 <nav class="nav flex-column">
-    <a href="/" class="nav__link" data-link>Dashboard</a>
+    <a href="/" class="nav__link" data-link>Main page</a>
 
     <a href="/teachers" class="nav__link" data-link>Teachers</a>
     <a href="/courses" class="nav__link" data-link>Courses</a>
     <a href="/students" class="nav__link" data-link>Students</a>
-    <a href="/studentCourseRelations" class="nav__link" data-link>Students--Courses</a>
+    <a href="/studentCourseRelations" class="nav__link" data-link>Students-Courses</a>
     <a href="/logout" class="nav__link" data-link>Logout</a>
 
     <a href="/rocket" class="nav__link" data-link>Rocket!</a>

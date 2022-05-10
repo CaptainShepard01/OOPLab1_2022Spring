@@ -7,7 +7,7 @@
     <groupId>ua.univer</groupId>
     <artifactId>OOPLabs2022Spring</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>OOPLabs2022Spring Maven Webapp</name>
     <!-- FIXME change it to the project's website -->
@@ -154,7 +154,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-services</artifactId>
-            <version>18.0.0</version>
+            <version>${keycloak.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -162,7 +162,7 @@
         <dependency>
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-saml-core-public</artifactId>
-            <version>18.0.0</version>
+            <version>${keycloak.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -234,6 +234,16 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <profiles>

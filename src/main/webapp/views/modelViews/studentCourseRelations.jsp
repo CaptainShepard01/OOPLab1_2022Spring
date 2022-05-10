@@ -5,9 +5,7 @@
 
 
 <%
-    if (request.getAttribute("objectName") == "StudentCourseRelation" && rolesSet != null &&
-        (rolesSet.contains("student_course_relations_student_access") ||
-                rolesSet.contains("student_course_relations_full_access"))) {
+    if (request.getAttribute("objectName") == "StudentCourseRelation" && rolesSet != null && (rolesSet.contains("student") || rolesSet.contains("teacher"))) {
 %>
     <% if (request.getAttribute("delete_id") == null) { %>
         <form action="/studentCourseRelations" method="post">
@@ -29,7 +27,7 @@
                     <% } %>
                 </select>
             </div>
-            <% if (rolesSet.contains("student_course_relations_full_access")) { %>
+            <% if (rolesSet.contains("teacher")) { %>
                 <div class="form-group">
                     <label for="gradeField">Grade</label>
                     <input type="number" name="grade" class="form-control" id="gradeField" placeholder="Enter grade" required

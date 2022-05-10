@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<% if (request.getAttribute("objectName") == "Teacher" && rolesSet != null && rolesSet.contains("teachers_full_access")) {%>
+<% if (request.getAttribute("objectName") == "Teacher" && rolesSet != null && rolesSet.contains("admin")) {%>
 
     <% if (request.getAttribute("delete_id") == null) { %>
         <form action="/teachers" method="post">

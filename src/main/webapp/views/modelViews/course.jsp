@@ -3,7 +3,7 @@
 <%@ page import="java.util.Set" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<% if (request.getAttribute("objectName") == "Course" && rolesSet != null && rolesSet.contains("courses_full_access")) { %>
+<% if (request.getAttribute("objectName") == "Course" && rolesSet != null && rolesSet.contains("admin")) { %>
 
     <% if (request.getAttribute("delete_id") == null) { %>
         <form action="/courses" method="post">

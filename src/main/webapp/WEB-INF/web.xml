@@ -43,8 +43,9 @@
             <url-pattern>/courses</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>courses_full_access</role-name>
-            <role-name>courses_view_access</role-name>
+            <role-name>admin</role-name>
+            <role-name>teacher</role-name>
+            <role-name>student</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -54,8 +55,9 @@
             <url-pattern>/teachers</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>teachers_full_access</role-name>
-            <role-name>teachers_view_access</role-name>
+            <role-name>admin</role-name>
+            <role-name>teacher</role-name>
+            <role-name>student</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -65,8 +67,9 @@
             <url-pattern>/students</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>students_full_access</role-name>
-            <role-name>students_view_access</role-name>
+            <role-name>admin</role-name>
+            <role-name>teacher</role-name>
+            <role-name>student</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -76,8 +79,9 @@
             <url-pattern>/studentCourseRelations</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <role-name>student_course_relations_full_access</role-name>
-            <role-name>student_course_relations_student_access</role-name>
+            <role-name>admin</role-name>
+            <role-name>teacher</role-name>
+            <role-name>student</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -87,37 +91,16 @@
     </login-config>
 
     <security-role>
-        <role-name>courses_full_access</role-name>
+        <role-name>admin</role-name>
     </security-role>
 
     <security-role>
-        <role-name>courses_view_access</role-name>
+        <role-name>teacher</role-name>
     </security-role>
 
     <security-role>
-        <role-name>students_full_access</role-name>
+        <role-name>student</role-name>
     </security-role>
-
-    <security-role>
-        <role-name>students_view_access</role-name>
-    </security-role>
-
-    <security-role>
-        <role-name>student_course_relations_full_access</role-name>
-    </security-role>
-
-    <security-role>
-        <role-name>student_course_relations_student_access</role-name>
-    </security-role>
-
-    <security-role>
-        <role-name>teachers_full_access</role-name>
-    </security-role>
-
-    <security-role>
-        <role-name>teachers_view_access</role-name>
-    </security-role>
-
 
     <!--  <error-page>-->
     <!--    <exception-type>java.lang.Error</exception-type>-->

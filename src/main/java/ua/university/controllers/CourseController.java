@@ -40,6 +40,7 @@ public class CourseController extends HttpServlet {
 
         request.setAttribute("username", KeycloakTokenUtil.getPreferredUsername(request));
         request.setAttribute("roles", KeycloakTokenUtil.getRoles(request));
+
         StringBuilder stringBuilder = new StringBuilder();
 
         if (request.getParameter("id") == null) {
