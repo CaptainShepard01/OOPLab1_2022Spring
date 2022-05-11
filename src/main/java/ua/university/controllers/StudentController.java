@@ -30,7 +30,6 @@ public class StudentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         request.setAttribute("username", KeycloakTokenUtil.getPreferredUsername(request));
         request.setAttribute("roles", KeycloakTokenUtil.getRoles(request));
 

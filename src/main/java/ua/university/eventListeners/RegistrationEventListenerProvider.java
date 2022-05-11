@@ -13,14 +13,18 @@ import org.keycloak.events.EventListenerProvider;
 import org.keycloak.events.EventType;
 import org.keycloak.events.admin.AdminEvent;
 import org.keycloak.models.*;
+import ua.university.DAO.FacultyDAO;
+import ua.university.models.Student;
+import ua.university.models.Teacher;
 
 import javax.ws.rs.core.MultivaluedMap;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.sql.SQLException;
+import java.util.*;
+
+import static org.apache.http.impl.client.HttpClients.createDefault;
 
 public class RegistrationEventListenerProvider implements EventListenerProvider {
     private final KeycloakSession session;
@@ -32,7 +36,7 @@ public class RegistrationEventListenerProvider implements EventListenerProvider 
     }
 
     @Override
-    public void onEvent(Event event) {
+    public void onEvent(Event event) throws RuntimeException {
 
         if (EventType.REGISTER.equals(event.getType())) {
             RealmModel realm = this.model.getRealm(event.getRealmId());
@@ -42,19 +46,28 @@ public class RegistrationEventListenerProvider implements EventListenerProvider 
             MultivaluedMap<String, String> formParameters = req.getFormParameters();
 
             String ourRole = formParameters.get("role").toString();
+            FacultyDAO facultyDAO = null;
+
+            try {
+                facultyDAO = new FacultyDAO();
+            } catch (ClassNotFoundException | SQLException e) {
+                throw new RuntimeException(e);
+            }
 
             if (Objects.equals(ourRole, "[student]")) {
                 RoleModel roleModel = realm.getClientById(realm.getClientByClientId("Faculty").getId()).getRole("student");
                 System.out.println("Our role model: " + roleModel.getName());
                 newRegisteredUser.grantRole(roleModel);
 
-
+                facultyDAO.saveStudent(new Student(-1, newRegisteredUser.getFirstName()));
             }
 
             if (Objects.equals(ourRole, "[teacher]")) {
                 RoleModel roleModel = realm.getClientById(realm.getClientByClientId("Faculty").getId()).getRole("teacher");
                 System.out.println("Our role model: " + roleModel.getName());
                 newRegisteredUser.grantRole(roleModel);
+
+                facultyDAO.saveTeacher(new Teacher(-1, newRegisteredUser.getFirstName()));
             }
 
             System.out.println("Hello, am I alive? Am I? (•_•) ( •_•)>⌐■-■ (⌐■_■) -> " + newRegisteredUser.getUsername());
@@ -70,27 +83,5 @@ public class RegistrationEventListenerProvider implements EventListenerProvider 
     @Override
     public void close() {
 
-    }
-
-    public void sendPost(String path, String[] args) throws IOException {
-        HttpClient httpclient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost("http://127.0.0.1/" + path + "/");
-
-        // Request parameters and other properties.
-        List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-        params.add(new BasicNameValuePair("name", args[1]));
-        params.add(new BasicNameValuePair("...", args[2]));
-        httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-
-////Execute and get the response.
-        HttpResponse response = httpclient.execute(httppost);
-        System.out.println(response.toString());
-//        HttpEntity entity = response.getEntity();
-//
-//        if (entity != null) {
-//            try (InputStream instream = entity.getContent()) {
-//                // do something useful
-//            }
-//        }
     }
 }

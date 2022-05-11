@@ -64,6 +64,7 @@ public class StudentCourseRelationController extends HttpServlet {
         switch (action) {
             case "DELETE": {
                 long delete_id = Long.parseLong(session.getAttribute("delete_id").toString());
+
                 this.service.onDelete(delete_id);
                 resp.sendRedirect("/studentCourseRelations");
                 break;
@@ -71,11 +72,15 @@ public class StudentCourseRelationController extends HttpServlet {
             case "POST": {
                 String studentId = req.getParameter("student_id");
                 String courseId = req.getParameter("course_id");
-                String grade = req.getParameter("grade");
-                String review = req.getParameter("review");
+                String grade = (null == req.getParameter("grade")) ? "0" : req.getParameter("grade");
+                String review = (null == req.getParameter("review")) ? "" : req.getParameter("review");
                 String[] params = new String[]{studentId, courseId, grade, review};
                 this.service.onAdd(params);
                 resp.sendRedirect("/studentCourseRelations");
+                break;
+            }
+            case "UPDATE": {
+
                 break;
             }
             default: {
