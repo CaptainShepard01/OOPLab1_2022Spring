@@ -10,7 +10,7 @@
             rolesSet.contains("teacher") ||
             rolesSet.contains("admin"))) {
 %>
-    <% if (request.getAttribute("delete_id") == null) { %>
+    <% if (request.getAttribute("delete_id") == null && (rolesSet.contains("student") || rolesSet.contains("admin"))) { %>
         <form action="/studentCourseRelations" method="post">
             <div class="form-group">
                 <label for="studentField">Select student</label>
@@ -30,17 +30,14 @@
                     <% } %>
                 </select>
             </div>
-            <% if (rolesSet.contains("teacher")||
-                    rolesSet.contains("admin")) { %>
+            <% if (rolesSet.contains("admin")) { %>
                 <div class="form-group">
                     <label for="gradeField">Grade</label>
-                    <input type="number" name="grade" class="form-control" id="gradeField" placeholder="Enter grade" required
-                           min="1" max="30"/>
+                    <input type="number" name="grade" class="form-control" id="gradeField" placeholder="Enter grade" min="1"/>
                 </div>
                 <div class="form-group">
                     <label for="reviewField">Review</label>
-                    <textarea type="text" rows="5" cols="40" name="review" class="form-control" id="reviewField"
-                              placeholder="Enter review" required></textarea>
+                    <textarea type="text" rows="5" cols="40" name="review" class="form-control" id="reviewField" placeholder="Enter review"></textarea>
                 </div>
             <% } %>
             <% session.setAttribute("action", "POST"); %>
@@ -48,11 +45,30 @@
         </form>
     <% } %>
 
-    <% if (request.getAttribute("delete_id") != null) { %>
+    <% if (request.getAttribute("delete_id") != null && rolesSet.contains("admin")) { %>
+    <form action="/studentCourseRelations" method="post">
+        <% session.setAttribute("action", "DELETE"); %>
+        <% session.setAttribute("delete_id", request.getAttribute("delete_id")); %>
+        <input type="submit" class="btn btn-danger" value="Delete"/>
+    </form>
+    <% } %>
+
+    <% if (request.getAttribute("delete_id") != null && rolesSet != null && (rolesSet.contains("admin") || rolesSet.contains("teacher"))) { %>
         <form action="/studentCourseRelations" method="post">
-            <% session.setAttribute("action", "DELETE"); %>
-            <% session.setAttribute("delete_id", request.getAttribute("delete_id")); %>
-            <input type="submit" class="btn btn-danger" value="Delete"/>
+            <% session.setAttribute("action", "UPDATE");
+               session.setAttribute("update_id", request.getAttribute("delete_id"));
+            %>
+            <div class="form-group">
+                <label for="gradeField">Grade</label>
+                <input type="number" name="grade" class="form-control" id="gradeFieldUpdate" placeholder="Enter grade" required
+                       min="1" value="<%= request.getAttribute("maxGrade") %>"/>
+            </div>
+            <div class="form-group">
+                <label for="reviewField">Review</label>
+                <textarea type="text" rows="5" cols="40" name="review" class="form-control" id="reviewFieldUpdate"
+                          placeholder="Enter review" required><%= request.getAttribute("review") %></textarea>
+            </div>
+            <input type="submit" class="btn btn-success" value="Update"/>
         </form>
     <% } %>
 <% } %>

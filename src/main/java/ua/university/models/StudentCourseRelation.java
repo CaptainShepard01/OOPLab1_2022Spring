@@ -84,7 +84,7 @@ public class StudentCourseRelation implements IModel {
         Map<String, String> map = new LinkedHashMap<>();
         map.put("Id", String.valueOf(this.id));
         map.put("Student", this.student.getName());
-        map.put("Course", this.course.getName());
+        map.put("Course", this.course.getName()+", Max grade: " + this.course.getMaxGrade());
         map.put("Grade", String.valueOf(this.grade));
         map.put("Review", this.review);
         return map;

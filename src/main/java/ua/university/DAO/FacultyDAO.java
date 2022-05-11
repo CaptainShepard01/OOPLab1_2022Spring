@@ -71,6 +71,32 @@ public class FacultyDAO {
         }
     }
 
+    public List<Course> getCourses(String name) {
+        List<Course> resultList = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM courses " +
+                    "WHERE teacher_id="+
+                    "(SELECT id FROM teachers "+
+                    "WHERE name=?)");
+            statement.setString(1, name);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                resultList.add(new Course(resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("max_grade"),
+                        getTeacher(resultSet.getLong("teacher_id"))));
+            }
+
+            return resultList;
+        } catch (SQLException e) {
+            System.out.println(" >>     " + e.getMessage());
+            return resultList;
+        }
+    }
+
     public boolean saveCourse(Course course) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO courses " +
@@ -265,6 +291,28 @@ public class FacultyDAO {
         }
     }
 
+    public List<Student> getStudent(String name) {
+        List<Student> resultList = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM students " +
+                    "WHERE name=?");
+            statement.setString(1, name);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                resultList.add(new Student(resultSet.getLong("id"),
+                        resultSet.getString("name")));
+            }
+
+            return resultList;
+        } catch (SQLException e) {
+            System.out.println(" >>     " + e.getMessage());
+            return resultList;
+        }
+    }
+
     public boolean saveStudent(Student student) {
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO students " +
@@ -426,6 +474,57 @@ public class FacultyDAO {
         } catch (SQLException e) {
             System.out.println(" >>     " + e.getMessage());
             return false;
+        }
+    }
+
+    public List<StudentCourseRelation> getStudentCourseRelationsForStudent(String studentName) {
+        List<StudentCourseRelation> resultList = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM student_course_relations " +
+                    "WHERE student_id=("+
+                    "SELECT id FROM students WHERE name=?)");
+            statement.setString(1, studentName);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                resultList.add(new StudentCourseRelation(resultSet.getLong("id"),
+                        getStudent(resultSet.getLong("student_id")),
+                        getCourse(resultSet.getLong("course_id")),
+                        resultSet.getInt("grade"),
+                        resultSet.getString("review")));
+            }
+
+            return resultList;
+        } catch (SQLException e) {
+            System.out.println(" >>     " + e.getMessage());
+            return resultList;
+        }
+    }
+
+    public List<StudentCourseRelation> getStudentCourseRelationsForTeacher(String teacherName) {
+        List<StudentCourseRelation> resultList = new ArrayList<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM student_course_relations " +
+                    "WHERE course_id=("+
+                    "SELECT id FROM courses WHERE teacher_id=("+
+                    "SELECT id FROM teachers WHERE name=?))");
+            statement.setString(1, teacherName);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                resultList.add(new StudentCourseRelation(resultSet.getLong("id"),
+                        getStudent(resultSet.getLong("student_id")),
+                        getCourse(resultSet.getLong("course_id")),
+                        resultSet.getInt("grade"),
+                        resultSet.getString("review")));
+            }
+
+            return resultList;
+        } catch (SQLException e) {
+            System.out.println(" >>     " + e.getMessage());
+            return resultList;
         }
     }
 }

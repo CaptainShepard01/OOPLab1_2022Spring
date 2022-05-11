@@ -5,9 +5,12 @@ import ua.university.models.IModel;
 import java.util.Map;
 
 public class Utils {
+    public static enum Role {
+        STUDENT,
+        TEACHER
+    }
     public Utils() {
     }
-
     public static StringBuilder getSingleModelView(IModel model) {
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, String> map = model.getMap();

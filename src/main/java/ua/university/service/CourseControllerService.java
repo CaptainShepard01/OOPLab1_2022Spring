@@ -3,6 +3,7 @@ package ua.university.service;
 import ua.university.DAO.FacultyDAO;
 import ua.university.models.Course;
 import ua.university.models.Student;
+import ua.university.models.StudentCourseRelation;
 import ua.university.models.Teacher;
 import ua.university.utils.Utils;
 
@@ -30,6 +31,11 @@ public class CourseControllerService implements ControllerService{
     }
 
     @Override
+    public StringBuilder showAll(String name, Utils.Role role) {
+        return null;
+    }
+
+    @Override
     public StringBuilder showSingle(long id) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -54,6 +60,11 @@ public class CourseControllerService implements ControllerService{
     }
 
     @Override
+    public void onUpdate(String[] params) {
+
+    }
+
+    @Override
     public List<Student> getAllStudents() {
         return this.facultyDAO.indexStudent();
     }
@@ -67,4 +78,25 @@ public class CourseControllerService implements ControllerService{
     public List<Teacher> getAllTeachers() {
         return this.facultyDAO.indexTeacher();
     }
+
+    @Override
+    public StudentCourseRelation getStudentCourseRelation(long student_course_id) {
+        return null;
+    }
+
+    @Override
+    public List<Student> getStudent(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Course> getCoursesByTeacher(String name) {
+        return null;
+    }
+
+    @Override
+    public Course getCourseById(long id) {
+        return null;
+    }
+
 }

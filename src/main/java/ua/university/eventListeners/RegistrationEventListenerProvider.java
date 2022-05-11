@@ -45,7 +45,7 @@ public class RegistrationEventListenerProvider implements EventListenerProvider 
             org.jboss.resteasy.spi.HttpRequest req = session.getContext().getContextObject(HttpRequest.class);
             MultivaluedMap<String, String> formParameters = req.getFormParameters();
 
-            String ourRole = formParameters.get("role").toString();
+            String ourRole = formParameters.get("Role").toString();
             FacultyDAO facultyDAO = null;
 
             try {
@@ -56,7 +56,7 @@ public class RegistrationEventListenerProvider implements EventListenerProvider 
 
             if (Objects.equals(ourRole, "[student]")) {
                 RoleModel roleModel = realm.getClientById(realm.getClientByClientId("Faculty").getId()).getRole("student");
-                System.out.println("Our role model: " + roleModel.getName());
+                System.out.println("Our Role model: " + roleModel.getName());
                 newRegisteredUser.grantRole(roleModel);
 
                 facultyDAO.saveStudent(new Student(-1, newRegisteredUser.getFirstName()));
@@ -64,7 +64,7 @@ public class RegistrationEventListenerProvider implements EventListenerProvider 
 
             if (Objects.equals(ourRole, "[teacher]")) {
                 RoleModel roleModel = realm.getClientById(realm.getClientByClientId("Faculty").getId()).getRole("teacher");
-                System.out.println("Our role model: " + roleModel.getName());
+                System.out.println("Our Role model: " + roleModel.getName());
                 newRegisteredUser.grantRole(roleModel);
 
                 facultyDAO.saveTeacher(new Teacher(-1, newRegisteredUser.getFirstName()));

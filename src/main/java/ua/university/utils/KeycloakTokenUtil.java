@@ -9,6 +9,12 @@ import java.util.Set;
 
 public class KeycloakTokenUtil {
 
+    public static AccessToken getToken(HttpServletRequest httpServletRequest){
+        Principal principal = httpServletRequest.getUserPrincipal();
+        KeycloakPrincipal<?> keycloakPrincipal = (KeycloakPrincipal<?>) principal;
+        return keycloakPrincipal.getKeycloakSecurityContext().getToken();
+    }
+
     public static String getPreferredUsername(HttpServletRequest httpServletRequest){
         Principal principal = httpServletRequest.getUserPrincipal();
         KeycloakPrincipal<?> keycloakPrincipal = (KeycloakPrincipal<?>) principal;

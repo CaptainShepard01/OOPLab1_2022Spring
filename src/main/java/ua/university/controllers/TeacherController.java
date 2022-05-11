@@ -1,24 +1,26 @@
 package ua.university.controllers;
 
-import ua.university.DAO.FacultyDAO;
-import ua.university.models.Teacher;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpMethod;
+import org.keycloak.representations.AccessToken;
 import ua.university.service.ControllerService;
-import ua.university.service.CourseControllerService;
 import ua.university.service.TeacherControllerService;
 import ua.university.utils.KeycloakTokenUtil;
-import ua.university.utils.Utils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.DeleteMethod;
 
 @WebServlet("/teachers")
 public class TeacherController extends HttpServlet {

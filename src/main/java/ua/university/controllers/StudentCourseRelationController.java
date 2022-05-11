@@ -1,8 +1,12 @@
 package ua.university.controllers;
 
+import org.keycloak.representations.AccessToken;
+import ua.university.models.StudentCourseRelation;
 import ua.university.service.ControllerService;
 import ua.university.service.StudentCourseRelationControllerService;
 import ua.university.utils.KeycloakTokenUtil;
+import ua.university.utils.Utils;
+import ua.university.models.Course;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Set;
 
 @WebServlet("/studentCourseRelations")
 public class StudentCourseRelationController extends HttpServlet {
@@ -32,21 +37,42 @@ public class StudentCourseRelationController extends HttpServlet {
             throws ServletException, IOException {
 
         request.setAttribute("username", KeycloakTokenUtil.getPreferredUsername(request));
-        request.setAttribute("roles", KeycloakTokenUtil.getRoles(request));
+        Set<String> roles = KeycloakTokenUtil.getRoles(request);
+        AccessToken accessToken = KeycloakTokenUtil.getToken(request);
+        request.setAttribute("roles", roles);
 
         StringBuilder stringBuilder = new StringBuilder();
 
         if (request.getParameter("id") == null) {
-            stringBuilder.append(service.showAll());
+            request.setAttribute("delete_id", null);
+            if (roles.contains("admin")) {
+                stringBuilder.append(service.showAll());
+            } else if (roles.contains("student")) {
+                stringBuilder.append(service.showAll(accessToken.getName(), Utils.Role.STUDENT));
+            } else if (roles.contains("teacher")) {
+                stringBuilder.append(service.showAll(accessToken.getName(), Utils.Role.TEACHER));
+            }
         } else {
             long student_course_id = Long.parseLong(request.getParameter("id"));
             stringBuilder.append(service.showSingle(student_course_id));
+            StudentCourseRelation studentCourseRelation = service.getStudentCourseRelation(student_course_id);
 
             request.setAttribute("delete_id", student_course_id);
+            request.setAttribute("maxGrade", studentCourseRelation.getGrade());
+            request.setAttribute("review", studentCourseRelation.getReview());
         }
 
-        request.setAttribute("studentList", this.service.getAllStudents());
-        request.setAttribute("courseList", this.service.getAllCourses());
+        if (roles.contains("admin")) {
+            request.setAttribute("studentList", this.service.getAllStudents());
+            request.setAttribute("courseList", this.service.getAllCourses());
+        } else if (roles.contains("student")) {
+            request.setAttribute("studentList", this.service.getStudent(accessToken.getName()));
+            request.setAttribute("courseList", this.service.getAllCourses());
+        } else if (roles.contains("teacher")) {
+            request.setAttribute("studentList", this.service.getAllStudents());
+            request.setAttribute("courseList", this.service.getCoursesByTeacher(accessToken.getName()));
+        }
+
 
         request.setAttribute("objectName", "StudentCourseRelation");
 
@@ -64,7 +90,6 @@ public class StudentCourseRelationController extends HttpServlet {
         switch (action) {
             case "DELETE": {
                 long delete_id = Long.parseLong(session.getAttribute("delete_id").toString());
-
                 this.service.onDelete(delete_id);
                 resp.sendRedirect("/studentCourseRelations");
                 break;
@@ -73,6 +98,11 @@ public class StudentCourseRelationController extends HttpServlet {
                 String studentId = req.getParameter("student_id");
                 String courseId = req.getParameter("course_id");
                 String grade = (null == req.getParameter("grade")) ? "0" : req.getParameter("grade");
+
+                Course course = service.getCourseById(Long.parseLong(courseId));
+                if (Integer.parseInt(grade) > course.getMaxGrade())
+                    grade = String.valueOf(course.getMaxGrade());
+
                 String review = (null == req.getParameter("review")) ? "" : req.getParameter("review");
                 String[] params = new String[]{studentId, courseId, grade, review};
                 this.service.onAdd(params);
@@ -80,7 +110,21 @@ public class StudentCourseRelationController extends HttpServlet {
                 break;
             }
             case "UPDATE": {
+                long update_id = Long.parseLong(session.getAttribute("update_id").toString());
+                StudentCourseRelation studentCourseRelation = service.getStudentCourseRelation(update_id);
+                String grade = (null == req.getParameter("grade")) ? "0" : req.getParameter("grade");
 
+                Course course = studentCourseRelation.getCourse();
+                if (Integer.parseInt(grade) > course.getMaxGrade())
+                    grade = String.valueOf(course.getMaxGrade());
+
+                String review = (null == req.getParameter("review")) ? "" : req.getParameter("review");
+                String[] params = new String[]{String.valueOf(studentCourseRelation.getId()),
+                        String.valueOf(studentCourseRelation.getStudent().getId()),
+                        String.valueOf(studentCourseRelation.getCourse().getId()),
+                        grade, review};
+                this.service.onUpdate(params);
+                resp.sendRedirect("/studentCourseRelations");
                 break;
             }
             default: {
