@@ -97,7 +97,7 @@ public class StudentCourseRelationController extends HttpServlet {
             case "POST": {
                 String studentId = req.getParameter("student_id");
                 String courseId = req.getParameter("course_id");
-                String grade = (null == req.getParameter("grade")) ? "0" : req.getParameter("grade");
+                String grade = (null == req.getParameter("grade") || req.getParameter("grade").equals("")) ? "0" : req.getParameter("grade");
 
                 Course course = service.getCourseById(Long.parseLong(courseId));
                 if (Integer.parseInt(grade) > course.getMaxGrade())
@@ -112,7 +112,7 @@ public class StudentCourseRelationController extends HttpServlet {
             case "UPDATE": {
                 long update_id = Long.parseLong(session.getAttribute("update_id").toString());
                 StudentCourseRelation studentCourseRelation = service.getStudentCourseRelation(update_id);
-                String grade = (null == req.getParameter("grade")) ? "0" : req.getParameter("grade");
+                String grade = (null == req.getParameter("grade") || req.getParameter("grade").equals("")) ? "0" : req.getParameter("grade");
 
                 Course course = studentCourseRelation.getCourse();
                 if (Integer.parseInt(grade) > course.getMaxGrade())

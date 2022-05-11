@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ua.univer</groupId>
-    <artifactId>OOPLabs2022Spring</artifactId>
+    <artifactId>OOPLab1_2022Spring</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>OOPLabs2022Spring Maven Webapp</name>
+    <name>OOPLab1_2022Spring Maven Webapp</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -197,7 +197,7 @@
             </resource>
         </resources>
 
-        <finalName>OOPLabs2022Spring</finalName>
+        <finalName>OOPLab1_2022Spring</finalName>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
             <plugins>
                 <plugin>

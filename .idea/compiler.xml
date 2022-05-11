@@ -7,7 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="OOPLabs2022Spring" />
+        <module name="OOPLab1_2022Spring" />
       </profile>
     </annotationProcessing>
   </component>
