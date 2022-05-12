@@ -1,10 +1,5 @@
 package ua.university.controllers;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
-import org.keycloak.representations.AccessToken;
-import ua.university.service.ControllerService;
 import ua.university.service.TeacherControllerService;
 import ua.university.utils.KeycloakTokenUtil;
 
@@ -16,15 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
-
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.DeleteMethod;
 
 @WebServlet("/teachers")
 public class TeacherController extends HttpServlet {
-    private ControllerService service;
+    private TeacherControllerService service;
 
     @Override
     public void init() {

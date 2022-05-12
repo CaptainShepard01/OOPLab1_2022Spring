@@ -19,7 +19,7 @@ import java.util.List;
 
 public class DataSourceConfig {
     //  Database credentials
-    static final String DB_URL = "jdbc:postgresql://localhost:5432/FacultyOOPLabs";
+    static final String DB_URL = "jdbc:postgresql://localhost:5432/OOPLab1_2022Spring";
     static final String USER = "postgres";
     static final String PASS = "password";
 

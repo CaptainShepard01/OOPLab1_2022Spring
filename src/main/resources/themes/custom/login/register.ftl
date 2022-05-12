@@ -24,9 +24,7 @@
                 </div>
             </#if>
 
-            <div class="${properties.kcLabelWrapperClass!}">
-                <label for="role" class="${properties.kcLabelClass!}">Choose your role:</label>
-            </div>
+            <label for="role" class="${properties.kcLabelClass!}">Choose your role:</label>
             <select name="role" id="role">
                 <option value="student" >Student</option>
                 <option value="teacher">Teacher</option>

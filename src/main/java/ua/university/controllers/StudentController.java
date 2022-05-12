@@ -1,6 +1,5 @@
 package ua.university.controllers;
 
-import ua.university.service.ControllerService;
 import ua.university.service.StudentControllerService;
 import ua.university.utils.KeycloakTokenUtil;
 
@@ -16,7 +15,7 @@ import java.sql.SQLException;
 
 @WebServlet(value = "/students")
 public class StudentController extends HttpServlet {
-    private ControllerService service;
+    private StudentControllerService service;
 
     @Override
     public void init() {

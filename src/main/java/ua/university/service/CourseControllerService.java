@@ -10,7 +10,7 @@ import ua.university.utils.Utils;
 import java.sql.SQLException;
 import java.util.List;
 
-public class CourseControllerService implements ControllerService{
+public class CourseControllerService{
     private FacultyDAO facultyDAO;
 
     public CourseControllerService() throws SQLException, ClassNotFoundException {
@@ -18,7 +18,6 @@ public class CourseControllerService implements ControllerService{
     }
 
 
-    @Override
     public StringBuilder showAll() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -30,12 +29,6 @@ public class CourseControllerService implements ControllerService{
         return stringBuilder;
     }
 
-    @Override
-    public StringBuilder showAll(String name, Utils.Role role) {
-        return null;
-    }
-
-    @Override
     public StringBuilder showSingle(long id) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -46,7 +39,6 @@ public class CourseControllerService implements ControllerService{
         return stringBuilder;
     }
 
-    @Override
     public void onAdd(String[] params) {
         String name = params[0];
         int maxGrade = Integer.parseInt(params[1]);
@@ -54,49 +46,13 @@ public class CourseControllerService implements ControllerService{
         this.facultyDAO.saveCourse(new Course(-1, name, maxGrade, teacher));
     }
 
-    @Override
     public void onDelete(long id) {
         this.facultyDAO.deleteCourse(id);
     }
 
-    @Override
-    public void onUpdate(String[] params) {
 
-    }
-
-    @Override
-    public List<Student> getAllStudents() {
-        return this.facultyDAO.indexStudent();
-    }
-
-    @Override
-    public List<Course> getAllCourses() {
-        return this.facultyDAO.indexCourse();
-    }
-
-    @Override
     public List<Teacher> getAllTeachers() {
         return this.facultyDAO.indexTeacher();
-    }
-
-    @Override
-    public StudentCourseRelation getStudentCourseRelation(long student_course_id) {
-        return null;
-    }
-
-    @Override
-    public List<Student> getStudent(String name) {
-        return null;
-    }
-
-    @Override
-    public List<Course> getCoursesByTeacher(String name) {
-        return null;
-    }
-
-    @Override
-    public Course getCourseById(long id) {
-        return null;
     }
 
 }

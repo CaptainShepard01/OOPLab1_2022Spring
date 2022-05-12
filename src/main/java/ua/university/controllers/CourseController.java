@@ -1,18 +1,10 @@
 package ua.university.controllers;
 
-import ua.university.DAO.FacultyDAO;
-import ua.university.models.Course;
-import ua.university.models.Teacher;
-import ua.university.service.ControllerService;
 import ua.university.service.CourseControllerService;
 import ua.university.utils.KeycloakTokenUtil;
-import ua.university.utils.Utils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +15,7 @@ import java.sql.SQLException;
 
 @WebServlet("/courses")
 public class CourseController extends HttpServlet {
-    private ControllerService service;
+    private CourseControllerService service;
 
     @Override
     public void init() {

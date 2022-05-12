@@ -9,14 +9,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentCourseRelationControllerService implements ControllerService{
+public class StudentCourseRelationControllerService{
     private FacultyDAO facultyDAO;
 
     public StudentCourseRelationControllerService() throws SQLException, ClassNotFoundException {
         this.facultyDAO = new FacultyDAO();
     }
 
-    @Override
     public StringBuilder showAll() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -28,7 +27,6 @@ public class StudentCourseRelationControllerService implements ControllerService
         return stringBuilder;
     }
 
-    @Override
     public StringBuilder showAll(String name, Utils.Role role) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -53,7 +51,6 @@ public class StudentCourseRelationControllerService implements ControllerService
         return stringBuilder;
     }
 
-    @Override
     public StringBuilder showSingle(long id) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -64,7 +61,6 @@ public class StudentCourseRelationControllerService implements ControllerService
         return stringBuilder;
     }
 
-    @Override
     public void onAdd(String[] params) {
         long studentId = Long.parseLong(params[0]);
         Student student = this.facultyDAO.getStudent(studentId);
@@ -75,12 +71,10 @@ public class StudentCourseRelationControllerService implements ControllerService
         this.facultyDAO.saveStudentCourseRelation(new StudentCourseRelation(-1, student, course, grade, review));
     }
 
-    @Override
     public void onDelete(long id) {
         this.facultyDAO.deleteStudentCourseRelation(id);
     }
 
-    @Override
     public void onUpdate(String[] params) {
         long id = Long.parseLong(params[0]);
         long studentId = Long.parseLong(params[1]);
@@ -92,37 +86,26 @@ public class StudentCourseRelationControllerService implements ControllerService
         this.facultyDAO.updateStudentCourseRelation(id, new StudentCourseRelation(-1, student, course, grade, review));
     }
 
-    @Override
     public List<Student> getAllStudents() {
         return this.facultyDAO.indexStudent();
     }
 
-    @Override
     public List<Course> getAllCourses() {
         return this.facultyDAO.indexCourse();
     }
 
-    @Override
-    public List<Teacher> getAllTeachers() {
-        return this.facultyDAO.indexTeacher();
-    }
-
-    @Override
     public StudentCourseRelation getStudentCourseRelation(long student_course_id) {
         return this.facultyDAO.getStudentCourseRelation(student_course_id);
     }
 
-    @Override
     public List<Student> getStudent(String name) {
         return this.facultyDAO.getStudent(name);
     }
 
-    @Override
     public List<Course> getCoursesByTeacher(String name) {
         return this.facultyDAO.getCourses(name);
     }
 
-    @Override
     public Course getCourseById(long id) {
         return this.facultyDAO.getCourse(id);
     }

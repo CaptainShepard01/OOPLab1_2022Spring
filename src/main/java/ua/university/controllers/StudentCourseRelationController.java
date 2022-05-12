@@ -2,7 +2,6 @@ package ua.university.controllers;
 
 import org.keycloak.representations.AccessToken;
 import ua.university.models.StudentCourseRelation;
-import ua.university.service.ControllerService;
 import ua.university.service.StudentCourseRelationControllerService;
 import ua.university.utils.KeycloakTokenUtil;
 import ua.university.utils.Utils;
@@ -21,7 +20,7 @@ import java.util.Set;
 
 @WebServlet("/studentCourseRelations")
 public class StudentCourseRelationController extends HttpServlet {
-    private ControllerService service;
+    private StudentCourseRelationControllerService service;
 
     @Override
     public void init() {

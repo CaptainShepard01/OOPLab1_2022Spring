@@ -10,14 +10,13 @@ import ua.university.utils.Utils;
 import java.sql.SQLException;
 import java.util.List;
 
-public class StudentControllerService implements ControllerService{
+public class StudentControllerService{
     private FacultyDAO facultyDAO;
 
     public StudentControllerService() throws SQLException, ClassNotFoundException {
         this.facultyDAO = new FacultyDAO();
     }
 
-    @Override
     public StringBuilder showAll() {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -28,13 +27,6 @@ public class StudentControllerService implements ControllerService{
 
         return stringBuilder;
     }
-
-    @Override
-    public StringBuilder showAll(String name, Utils.Role role) {
-        return null;
-    }
-
-    @Override
     public StringBuilder showSingle(long id) {
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -45,55 +37,12 @@ public class StudentControllerService implements ControllerService{
         return stringBuilder;
     }
 
-    @Override
     public void onAdd(String[] params) {
         String name = params[0];
         this.facultyDAO.saveStudent(new Student(-1, name));
     }
 
-    @Override
     public void onDelete(long id) {
         this.facultyDAO.deleteStudent(id);
     }
-
-    @Override
-    public void onUpdate(String[] params) {
-
-    }
-
-    @Override
-    public List<Student> getAllStudents() {
-        return this.facultyDAO.indexStudent();
-    }
-
-    @Override
-    public List<Course> getAllCourses() {
-        return this.facultyDAO.indexCourse();
-    }
-
-    @Override
-    public List<Teacher> getAllTeachers() {
-        return this.facultyDAO.indexTeacher();
-    }
-
-    @Override
-    public StudentCourseRelation getStudentCourseRelation(long student_course_id) {
-        return null;
-    }
-
-    @Override
-    public List<Student> getStudent(String name) {
-        return null;
-    }
-
-    @Override
-    public List<Course> getCoursesByTeacher(String name) {
-        return null;
-    }
-
-    @Override
-    public Course getCourseById(long id) {
-        return null;
-    }
-
 }
