@@ -9,7 +9,7 @@
                 <label for="nameField">Name</label>
                 <input type="text" name="name" class="form-control" id="nameField" placeholder="Enter name" required>
             </div>
-            <input type="submit" class="btn btn-primary" value="Add"/>
+            <input type="submit" name="btn_action" class="btn btn-primary" value="Add"/>
         </form>
     <% } %>
 

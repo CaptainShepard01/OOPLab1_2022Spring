@@ -45,7 +45,7 @@ public class RegistrationEventListenerProvider implements EventListenerProvider 
             org.jboss.resteasy.spi.HttpRequest req = session.getContext().getContextObject(HttpRequest.class);
             MultivaluedMap<String, String> formParameters = req.getFormParameters();
 
-            String ourRole = formParameters.get("Role").toString();
+            String ourRole = formParameters.get("role").toString();
             FacultyDAO facultyDAO = null;
 
             try {
