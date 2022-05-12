@@ -55,15 +55,15 @@ public class StudentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String action = session.getAttribute("action").toString();
+        String action = req.getParameter("btn_action");
         switch (action) {
-            case "DELETE": {
+            case "Delete": {
                 long delete_id = Long.parseLong(session.getAttribute("delete_id").toString());
                 this.service.onDelete(delete_id);
                 resp.sendRedirect("/students");
                 break;
             }
-            case "POST": {
+            case "Add": {
                 String name = req.getParameter("name");
                 String[] params = new String[]{name};
                 this.service.onAdd(params);

@@ -2,19 +2,19 @@
 
 --changeset balanton:1
 
-INSERT into teachers (name) VALUES('Karashuk M. G.');
-INSERT into teachers (name) VALUES('Galkin O. V.');
-INSERT into teachers (name) VALUES('Shkilnyak O. S.');
+INSERT into teachers (name) VALUES('Teacher 1');
+INSERT into teachers (name) VALUES('Teacher 2');
+INSERT into teachers (name) VALUES('Teacher 3.');
 
-INSERT into students (name) VALUES('Anton');
-INSERT into students (name) VALUES('Kyryl');
-INSERT into students (name) VALUES('Ruslan');
-INSERT into students (name) VALUES('Nazarii');
+INSERT into students (name) VALUES('Student 1');
+INSERT into students (name) VALUES('Student 2');
+INSERT into students (name) VALUES('Student 3');
+INSERT into students (name) VALUES('Student 4');
 
-INSERT into courses (name, max_grade, teacher_id) VALUES('Social-Politics Studies', 10, 1);
-INSERT into courses (name, max_grade, teacher_id) VALUES('Object Oriented Programming', 20, 2);
-INSERT into courses (name, max_grade, teacher_id) VALUES('Basics of Cryptology', 30, 2);
-INSERT into courses (name, max_grade, teacher_id) VALUES('Geometric Algorithms', 30, 3);
+INSERT into courses (name, max_grade, teacher_id) VALUES('Course 1', 10, 1);
+INSERT into courses (name, max_grade, teacher_id) VALUES('Course 2', 20, 2);
+INSERT into courses (name, max_grade, teacher_id) VALUES('Course 3', 30, 2);
+INSERT into courses (name, max_grade, teacher_id) VALUES('Course 4', 40, 3);
 
 INSERT into student_course_relations(student_id, course_id, grade, review) VALUES(1,1,7,'Wonderful!');
 INSERT into student_course_relations(student_id, course_id, grade, review) VALUES(1,2,17,'Good!');

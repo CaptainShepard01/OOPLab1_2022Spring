@@ -40,24 +40,20 @@
                     <textarea type="text" rows="5" cols="40" name="review" class="form-control" id="reviewField" placeholder="Enter review"></textarea>
                 </div>
             <% } %>
-            <% session.setAttribute("action", "POST"); %>
-            <input type="submit" class="btn btn-primary" value="Add!"/>
+            <input type="submit" name="btn_action" class="btn btn-primary" value="Add"/>
         </form>
     <% } %>
 
     <% if (request.getAttribute("delete_id") != null && rolesSet.contains("admin")) { %>
     <form action="/studentCourseRelations" method="post">
-        <% session.setAttribute("action", "DELETE"); %>
         <% session.setAttribute("delete_id", request.getAttribute("delete_id")); %>
-        <input type="submit" class="btn btn-danger" value="Delete"/>
+        <input type="submit" name="btn_action" class="btn btn-danger" value="Delete"/>
     </form>
     <% } %>
 
     <% if (request.getAttribute("delete_id") != null && rolesSet != null && (rolesSet.contains("admin") || rolesSet.contains("teacher"))) { %>
         <form action="/studentCourseRelations" method="post">
-            <% session.setAttribute("action", "UPDATE");
-               session.setAttribute("update_id", request.getAttribute("delete_id"));
-            %>
+            <% session.setAttribute("update_id", request.getAttribute("delete_id")); %>
             <div class="form-group">
                 <label for="gradeField">Grade</label>
                 <input type="number" name="grade" class="form-control" id="gradeFieldUpdate" placeholder="Enter grade" required
@@ -68,7 +64,7 @@
                 <textarea type="text" rows="5" cols="40" name="review" class="form-control" id="reviewFieldUpdate"
                           placeholder="Enter review" required><%= request.getAttribute("review") %></textarea>
             </div>
-            <input type="submit" class="btn btn-success" value="Update"/>
+            <input type="submit" name="btn_action" class="btn btn-success" value="Update"/>
         </form>
     <% } %>
 <% } %>

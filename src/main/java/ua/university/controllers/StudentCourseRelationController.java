@@ -85,15 +85,15 @@ public class StudentCourseRelationController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        String action = session.getAttribute("action").toString();
+        String action = req.getParameter("btn_action");
         switch (action) {
-            case "DELETE": {
+            case "Delete": {
                 long delete_id = Long.parseLong(session.getAttribute("delete_id").toString());
                 this.service.onDelete(delete_id);
                 resp.sendRedirect("/studentCourseRelations");
                 break;
             }
-            case "POST": {
+            case "Add": {
                 String studentId = req.getParameter("student_id");
                 String courseId = req.getParameter("course_id");
                 String grade = (null == req.getParameter("grade") || req.getParameter("grade").equals("")) ? "0" : req.getParameter("grade");
@@ -108,7 +108,7 @@ public class StudentCourseRelationController extends HttpServlet {
                 resp.sendRedirect("/studentCourseRelations");
                 break;
             }
-            case "UPDATE": {
+            case "Update": {
                 long update_id = Long.parseLong(session.getAttribute("update_id").toString());
                 StudentCourseRelation studentCourseRelation = service.getStudentCourseRelation(update_id);
                 String grade = (null == req.getParameter("grade") || req.getParameter("grade").equals("")) ? "0" : req.getParameter("grade");

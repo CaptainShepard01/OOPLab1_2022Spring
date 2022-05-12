@@ -8,16 +8,14 @@
                 <label for="nameField">Name</label>
                 <input type="text" name="name" class="form-control" id="nameField" placeholder="Enter name" required>
             </div>
-            <% session.setAttribute("action", "POST"); %>
-            <input type="submit" class="btn btn-primary" value="Add!"/>
+            <input type="submit" name="btn_action" class="btn btn-primary" value="Add"/>
         </form>
     <% } %>
 
     <% if (request.getAttribute("delete_id") != null) { %>
         <form action="/teachers" method="post">
-            <% session.setAttribute("action", "DELETE"); %>
             <% session.setAttribute("delete_id", request.getAttribute("delete_id")); %>
-            <input type="submit" class="btn btn-danger" value="Delete"/>
+            <input type="submit" name="btn_action" class="btn btn-danger" value="Delete"/>
         </form>
     <% } %>
 <% } %>
